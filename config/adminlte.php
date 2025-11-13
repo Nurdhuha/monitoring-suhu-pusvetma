@@ -196,7 +196,7 @@ return [
     'classes_content_wrapper' => '',
     'classes_content_header' => '',
     'classes_content' => '',
-    'classes_sidebar' => 'sidebar-dark-primary elevation-4',
+    'classes_sidebar' => 'sidebar-light-info elevation-4',
     'classes_sidebar_nav' => '',
     'classes_topnav' => 'navbar-white navbar-light',
     'classes_topnav_nav' => 'navbar-expand',
@@ -299,10 +299,27 @@ return [
     */
 
     'menu' => [
+        ['header' => 'MAIN NAVIGATION'],
         [
             'text' => 'Dashboard',
             'route'  => 'admin.dashboard',
             'icon' => 'fas fa-fw fa-tachometer-alt',
+        ],
+        [
+            'text' => 'Management',
+            'icon' => 'fas fa-fw fa-cogs',
+            'submenu' => [
+                [
+                    'text' => 'Devices',
+                    'route'  => 'devices.index',
+                    'icon' => 'fas fa-fw fa-desktop',
+                ],
+                [
+                    'text' => 'Data Suhu',
+                    'route'  => 'data-suhu.index',
+                    'icon' => 'fas fa-fw fa-thermometer-half',
+                ],
+            ],
         ],
     ],
 
@@ -387,7 +404,7 @@ return [
             ],
         ],
         'Sweetalert2' => [
-            'active' => false,
+            'active' => true,
             'files' => [
                 [
                     'type' => 'js',

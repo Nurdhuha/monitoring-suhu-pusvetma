@@ -29,10 +29,10 @@ class Device extends Model
     }
 
     /**
-     * Get the sections for the device.
+     * Get the temperature readings for the device.
      */
-    public function sections()
+    public function dataSuhu()
     {
-        return $this->hasMany(Section::class);
+        return $this->hasMany(DataSuhu::class);
     }
 }
