@@ -319,6 +319,12 @@ return [
                     'route'  => 'data-suhu.index',
                     'icon' => 'fas fa-fw fa-thermometer-half',
                 ],
+                [
+                    'text' => 'Users',
+                    'route'  => 'users.index',
+                    'icon' => 'fas fa-fw fa-users',
+                    'can'  => 'superadmin-access',
+                ],
             ],
         ],
     ],

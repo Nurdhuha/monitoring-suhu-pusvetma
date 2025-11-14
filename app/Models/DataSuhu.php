@@ -25,6 +25,7 @@ class DataSuhu extends Model
         'device_id',
         'section',
         'temperature',
+        'user_id',
     ];
 
     /**
@@ -33,5 +34,13 @@ class DataSuhu extends Model
     public function device()
     {
         return $this->belongsTo(Device::class);
+    }
+
+    /**
+     * Get the user who recorded the temperature reading.
+     */
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 }

@@ -58,7 +58,7 @@ class HomeController extends Controller
                     $dataset = [
                         'label' => $device->name . ' (' . $device->location . ')',
                         'data' => [],
-                        'borderColor' => $colors[array_rand($colors)], // Assign a random color
+                        'device_id' => $deviceId, // Add device_id for frontend color mapping
                         'fill' => false,
                     ];
 

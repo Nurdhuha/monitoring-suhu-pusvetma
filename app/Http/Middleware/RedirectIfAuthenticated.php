@@ -23,7 +23,13 @@ class RedirectIfAuthenticated
 
         foreach ($guards as $guard) {
             if (Auth::guard($guard)->check()) {
-                return redirect(RouteServiceProvider::HOME);
+                // Logika baru
+                if (Auth::user()->isSuperAdmin()) {
+                    return redirect()->route('superadmin.dashboard');
+                } elseif (Auth::user()->isAdmin()) {
+                    return redirect()->route('admin.dashboard');
+                }
+                return redirect(RouteServiceProvider::HOME); // Redirect ke /home untuk user biasa
             }
         }
 

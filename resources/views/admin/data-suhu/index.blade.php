@@ -11,10 +11,12 @@
         <div class="card-header">
             <h3 class="card-title">Data Suhu List</h3>
             <div class="card-tools">
-                {{-- Assuming create will also be a modal, for now, just remove the link --}}
-                {{-- <a href="{{ route('data-suhu.create') }}" class="btn btn-primary">
-                    <i class="fas fa-plus"></i> Add New Reading
-                </a> --}}
+                <a href="{{ route('admin.data-suhu.download') }}" class="btn btn-success btn-sm mr-2">
+                    <i class="fas fa-download"></i> Download Excel
+                </a>
+                <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#createDataSuhuModal">
+                    <i class="fas fa-plus"></i> Input Suhu
+                </button>
             </div>
         </div>
         <div class="card-body">
@@ -32,6 +34,7 @@
                     <tr>
                         <th style="width: 10px">#</th>
                         <th>Device</th>
+                        <th>Admin</th>
                         <th>Section</th>
                         <th>Temperature</th>
                         <th>Recorded At</th>
@@ -43,9 +46,11 @@
                         <tr data-id="{{ $reading->id }}">
                             <td>{{ $loop->iteration }}</td>
                             <td class="reading-device-name">{{ $reading->device->name ?? 'N/A' }}</td>
+                            <td>{{ $reading->user->name ?? 'N/A' }}</td>
                             <td class="reading-section"><span class="badge {{ $reading->section == 'pagi' ? 'bg-info' : 'bg-warning' }}">{{ ucfirst($reading->section) }}</span></td>
                             <td class="reading-temperature">{{ $reading->temperature }} °C</td>
-                            <td>
+                            <td>{{ $reading->created_at->format('d M Y H:i') }}</td> {{-- Recorded At content --}}
+                            <td> {{-- Action buttons --}}
                                 <button class="btn btn-sm btn-info edit-reading-btn" data-id="{{ $reading->id }}">
                                     <i class="fas fa-edit"></i> Edit
                                 </button>
@@ -112,6 +117,51 @@
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                         <button type="submit" class="btn btn-primary">Save changes</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    {{-- Create Data Suhu Modal --}}
+    <div class="modal fade" id="createDataSuhuModal" tabindex="-1" role="dialog" aria-labelledby="createDataSuhuModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="createDataSuhuModalLabel">Input Data Suhu</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form id="createDataSuhuForm">
+                    @csrf
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="create_device_id">Device</label>
+                            <select class="form-control" id="create_device_id" name="device_id" required>
+                                @foreach($devices as $device)
+                                    <option value="{{ $device->id }}">{{ $device->name }} ({{ $device->location }})</option>
+                                @endforeach
+                            </select>
+                            <span class="invalid-feedback" role="alert" id="create-device_id-error"></span>
+                        </div>
+                        <div class="form-group">
+                            <label for="create_section">Section</label>
+                            <select class="form-control" id="create_section" name="section" required>
+                                <option value="pagi">Pagi</option>
+                                <option value="siang">Siang</option>
+                            </select>
+                            <span class="invalid-feedback" role="alert" id="create-section-error"></span>
+                        </div>
+                        <div class="form-group">
+                            <label for="create_temperature">Temperature (°C)</label>
+                            <input type="number" step="0.01" class="form-control" id="create_temperature" name="temperature" required>
+                            <span class="invalid-feedback" role="alert" id="create-temperature-error"></span>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Save</button>
                     </div>
                 </form>
             </div>
@@ -196,6 +246,51 @@
                             Swal.fire(
                                 'Error!',
                                 'Error updating data suhu.',
+                                'error'
+                            );
+                            console.error(xhr);
+                        }
+                    }
+                });
+            });
+
+            // Handle create form submission via AJAX
+            $('#createDataSuhuForm').on('submit', function(e) {
+                e.preventDefault();
+
+                const url = "{{ route('data-suhu.store') }}";
+                const formData = $(this).serialize();
+
+                // Clear previous errors
+                $('#createDataSuhuForm .invalid-feedback').text('').hide();
+                $('#createDataSuhuForm .form-control').removeClass('is-invalid');
+
+                $.ajax({
+                    url: url,
+                    method: 'POST',
+                    data: formData,
+                    success: function(response) {
+                        $('#createDataSuhuModal').modal('hide');
+                        Swal.fire(
+                            'Success!',
+                            response.success,
+                            'success'
+                        );
+                        // Reload page to see new data with pagination
+                        location.reload();
+                    },
+                    error: function(xhr) {
+                        if (xhr.status === 422) { // Validation errors
+                            const errors = xhr.responseJSON.errors;
+                            for (const field in errors) {
+                                const input = $(`#create_${field}`);
+                                input.addClass('is-invalid');
+                                $(`#create-${field}-error`).text(errors[field][0]).show();
+                            }
+                        } else {
+                            Swal.fire(
+                                'Error!',
+                                'Error creating data suhu.',
                                 'error'
                             );
                             console.error(xhr);

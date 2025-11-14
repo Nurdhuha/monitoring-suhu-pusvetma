@@ -5,7 +5,10 @@ namespace App\Http\Controllers;
 use App\Models\DataSuhu;
 use App\Models\Device;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException; // Add this import
+use App\Exports\DataSuhuExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class DataSuhuController extends Controller
 {
@@ -14,7 +17,7 @@ class DataSuhuController extends Controller
      */
     public function index()
     {
-        $dataSuhu = DataSuhu::with('device')->latest()->paginate(10);
+        $dataSuhu = DataSuhu::with(['device', 'user'])->latest()->paginate(10);
         $devices = Device::all(); // Fetch all devices
         return view('admin.data-suhu.index', compact('dataSuhu', 'devices'));
     }
@@ -39,6 +42,9 @@ class DataSuhuController extends Controller
                 'section' => 'required|in:pagi,siang',
                 'temperature' => 'required|numeric',
             ]);
+
+            // Add the authenticated user's ID
+            $validatedData['user_id'] = Auth::id();
 
             DataSuhu::create($validatedData);
 
@@ -99,5 +105,15 @@ class DataSuhuController extends Controller
         } catch (\Exception $e) {
             return response()->json(['error' => 'An unexpected error occurred.'], 500);
         }
+    }
+
+    /**
+     * Handle the download request for temperature data in Excel format.
+     *
+     * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
+     */
+    public function downloadExcel()
+    {
+        return Excel::download(new DataSuhuExport, 'data-suhu.xlsx');
     }
 }

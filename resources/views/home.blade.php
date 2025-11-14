@@ -2,6 +2,20 @@
 
 @section('content')
 <div class="container py-4">
+    @auth
+    <div class="row justify-content-end mb-3">
+        <div class="col-md-auto">
+            <a class="btn btn-danger btn-sm" href="{{ route('logout') }}"
+               onclick="event.preventDefault();
+                             document.getElementById('logout-form').submit();">
+                {{ __('Logout') }}
+            </a>
+            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                @csrf
+            </form>
+        </div>
+    </div>
+    @endauth
     <div class="row justify-content-center mb-4">
         <div class="col-md-10 text-center">
             <h2 class="mb-3">{{ __('Monitoring Suhu Thermohygrometer') }}</h2>
@@ -34,6 +48,9 @@
 
                     <div class="chart-container" style="position: relative; min-height: 300px; height: 60vh; width: 100%;">
                         <canvas id="temperatureChart"></canvas>
+                        <div id="noChartDataMessage" class="text-center text-muted" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); display: none;">
+                            <p class="lead">{{ __('Pilih alat untuk menampilkan grafik suhu') }}</p>
+                        </div>
                     </div>
                 </div>
             </div>
