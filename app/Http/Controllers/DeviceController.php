@@ -15,6 +15,11 @@ class DeviceController extends Controller
     public function index()
     {
         $devices = Device::with('user')->latest()->paginate(10);
+
+        if (Auth::user()->isSuperAdmin()) {
+            return view('superadmin.devices.index', compact('devices'));
+        }
+
         return view('admin.devices.index', compact('devices'));
     }
 

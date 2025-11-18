@@ -50,7 +50,7 @@
                                 <button class="btn btn-sm btn-info edit-device-btn" data-id="{{ $device->id }}">
                                     <i class="fas fa-edit"></i> Edit
                                 </button>
-                                <form action="{{ route('admin.devices.destroy', $device) }}" method="POST" class="d-inline delete-device-form">
+                                <form action="{{ route('superadmin.devices.destroy', $device) }}" method="POST" class="d-inline delete-device-form">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" class="btn btn-sm btn-danger">
@@ -114,7 +114,7 @@
             // Handle Edit button click
             $('#devices-table').on('click', '.edit-device-btn', function() {
                 const deviceId = $(this).data('id');
-                const url = "{{ route('admin.devices.edit', ':id') }}".replace(':id', deviceId);
+                const url = "{{ route('superadmin.devices.edit', ':id') }}".replace(':id', deviceId);
 
                 // Clear previous errors
                 $('#editDeviceForm .invalid-feedback').text('').hide();
@@ -141,7 +141,7 @@
                 e.preventDefault();
 
                 const deviceId = $('#device_id').val();
-                const url = "{{ route('admin.devices.update', ':id') }}".replace(':id', deviceId);
+                const url = "{{ route('superadmin.devices.update', ':id') }}".replace(':id', deviceId);
                 const formData = $(this).serialize();
 
                 // Clear previous errors

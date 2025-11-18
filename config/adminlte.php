@@ -257,7 +257,7 @@ return [
     */
 
     'use_route_url' => false,
-    'dashboard_url' => 'admin',
+    'dashboard_url' => 'home',
     'logout_url' => 'logout',
     'login_url' => 'login',
     'register_url' => 'register',
@@ -299,33 +299,49 @@ return [
     */
 
     'menu' => [
-        ['header' => 'MAIN NAVIGATION'],
+        // Main navigation for admin
         [
             'text' => 'Dashboard',
-            'route'  => 'admin.dashboard',
+            'route' => 'admin.dashboard',
             'icon' => 'fas fa-fw fa-tachometer-alt',
+            'can' => 'admin-access',
         ],
         [
-            'text' => 'Management',
-            'icon' => 'fas fa-fw fa-cogs',
-            'submenu' => [
-                [
-                    'text' => 'Devices',
-                    'route'  => 'devices.index',
-                    'icon' => 'fas fa-fw fa-desktop',
-                ],
-                [
-                    'text' => 'Data Suhu',
-                    'route'  => 'data-suhu.index',
-                    'icon' => 'fas fa-fw fa-thermometer-half',
-                ],
-                [
-                    'text' => 'Users',
-                    'route'  => 'users.index',
-                    'icon' => 'fas fa-fw fa-users',
-                    'can'  => 'superadmin-access',
-                ],
-            ],
+            'text' => 'Devices',
+            'route' => 'admin.devices.index',
+            'icon' => 'fas fa-fw fa-desktop',
+            'can' => 'admin-access',
+        ],
+        [
+            'text' => 'Data Suhu',
+            'route' => 'admin.data-suhu.index',
+            'icon' => 'fas fa-fw fa-thermometer-half',
+            'can' => 'admin-access',
+        ],
+        // Main navigation for superadmin
+        [
+            'text' => 'Dashboard',
+            'route' => 'superadmin.dashboard',
+            'icon' => 'fas fa-fw fa-tachometer-alt',
+            'can' => 'superadmin-access',
+        ],
+        [
+            'text' => 'Users',
+            'route' => 'superadmin.users.index',
+            'icon' => 'fas fa-fw fa-users',
+            'can' => 'superadmin-access',
+        ],
+        [
+            'text' => 'Devices',
+            'route' => 'superadmin.devices.index',
+            'icon' => 'fas fa-fw fa-desktop',
+            'can' => 'superadmin-access',
+        ],
+        [
+            'text' => 'Data Suhu',
+            'route' => 'superadmin.data-suhu.index',
+            'icon' => 'fas fa-fw fa-thermometer-half',
+            'can' => 'superadmin-access',
         ],
     ],
 

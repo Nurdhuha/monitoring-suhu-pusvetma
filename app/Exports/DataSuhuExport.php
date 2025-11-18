@@ -3,19 +3,38 @@
 namespace App\Exports;
 
 use App\Models\DataSuhu;
-use Maatwebsite\Excel\Concerns\FromCollection;
+use Maatwebsite\Excel\Concerns\FromQuery;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithMapping;
+use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 
-class DataSuhuExport implements FromCollection, WithHeadings, WithMapping
+class DataSuhuExport implements FromQuery, WithHeadings, WithMapping, ShouldAutoSize
 {
-    /**
-    * @return \Illuminate\Support\Collection
-    */
-    public function collection()
+    protected $startDate;
+    protected $endDate;
+
+    public function __construct($startDate = null, $endDate = null)
     {
-        // Ambil semua data suhu dengan relasi device dan user
-        return DataSuhu::with(['device', 'user'])->get();
+        $this->startDate = $startDate;
+        $this->endDate = $endDate;
+    }
+
+    /**
+    * @return \Illuminate\Database\Eloquent\Builder
+    */
+    public function query()
+    {
+        $query = DataSuhu::with(['device', 'user']);
+
+        if ($this->startDate) {
+            $query->whereDate('created_at', '>=', $this->startDate);
+        }
+
+        if ($this->endDate) {
+            $query->whereDate('created_at', '<=', $this->endDate);
+        }
+
+        return $query;
     }
 
     /**

@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException; // Add this import
 use App\Exports\DataSuhuExport;
+use Illuminate\Support\Facades\Log;
 use Maatwebsite\Excel\Facades\Excel;
 
 class DataSuhuController extends Controller
@@ -19,6 +20,11 @@ class DataSuhuController extends Controller
     {
         $dataSuhu = DataSuhu::with(['device', 'user'])->latest()->paginate(10);
         $devices = Device::all(); // Fetch all devices
+
+        if (Auth::user()->isSuperAdmin()) {
+            return view('superadmin.data-suhu.index', compact('dataSuhu', 'devices'));
+        }
+
         return view('admin.data-suhu.index', compact('dataSuhu', 'devices'));
     }
 
@@ -59,23 +65,23 @@ class DataSuhuController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(DataSuhu $dataSuhu)
+    public function show(DataSuhu $data_suhu)
     {
-        return response()->json($dataSuhu);
+        return response()->json($data_suhu);
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(DataSuhu $dataSuhu)
+    public function edit(DataSuhu $data_suhu)
     {
-        return response()->json($dataSuhu->load('device')); // Load device relationship for display
+        return response()->json($data_suhu->load('device')); // Load device relationship for display
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, DataSuhu $dataSuhu)
+    public function update(Request $request, DataSuhu $data_suhu)
     {
         try {
             $validatedData = $request->validate([
@@ -84,7 +90,7 @@ class DataSuhuController extends Controller
                 'temperature' => 'required|numeric',
             ]);
 
-            $dataSuhu->update($validatedData);
+            $data_suhu->update($validatedData);
 
             return response()->json(['success' => 'Data Suhu updated successfully.']);
         } catch (ValidationException $e) {
@@ -97,13 +103,23 @@ class DataSuhuController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(DataSuhu $dataSuhu)
+    public function destroy(DataSuhu $data_suhu)
     {
+        Log::info('Entering destroy method for DataSuhu ID: ' . $data_suhu->id);
+
         try {
-            $dataSuhu->delete();
-            return response()->json(['success' => 'Data Suhu deleted successfully.']);
+            $deleted = $data_suhu->delete();
+
+            if ($deleted) {
+                Log::info('Successfully deleted DataSuhu ID: ' . $data_suhu->id);
+                return response()->json(['success' => 'Data Suhu deleted successfully.']);
+            } else {
+                Log::error('Failed to delete DataSuhu ID: ' . $data_suhu->id . '. The delete() method returned false.');
+                return response()->json(['error' => 'Failed to delete the record. The delete method returned false.'], 500);
+            }
         } catch (\Exception $e) {
-            return response()->json(['error' => 'An unexpected error occurred.'], 500);
+            Log::error('Exception caught while deleting DataSuhu ID: ' . $data_suhu->id . '. Message: ' . $e->getMessage());
+            return response()->json(['error' => 'An unexpected server error occurred while attempting to delete the record.'], 500);
         }
     }
 
@@ -112,8 +128,11 @@ class DataSuhuController extends Controller
      *
      * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
      */
-    public function downloadExcel()
+    public function downloadExcel(Request $request)
     {
-        return Excel::download(new DataSuhuExport, 'data-suhu.xlsx');
+        $startDate = $request->input('start_date');
+        $endDate = $request->input('end_date');
+
+        return Excel::download(new DataSuhuExport($startDate, $endDate), 'data-suhu.xlsx');
     }
 }

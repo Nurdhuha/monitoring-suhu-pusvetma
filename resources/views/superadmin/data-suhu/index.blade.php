@@ -54,7 +54,7 @@
                                 <button class="btn btn-sm btn-info edit-reading-btn" data-id="{{ $reading->id }}">
                                     <i class="fas fa-edit"></i> Edit
                                 </button>
-                                <form action="{{ route('admin.data-suhu.destroy', $reading) }}" method="POST" class="d-inline delete-reading-form">
+                                <form action="{{ route('superadmin.data-suhu.destroy', $reading) }}" method="POST" class="d-inline delete-reading-form">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" class="btn btn-sm btn-danger">
@@ -172,383 +172,181 @@
 @endsection
 
 @section('js')
-
     <script>
-
         $(document).ready(function() {
-
-            console.log('Admin data-suhu script loaded.');
-
-
+            console.log('Superadmin data-suhu script loaded.');
 
             // Pass devices data to JavaScript for dropdown population
-
             const allDevices = @json($devices);
 
-
-
             // Handle Edit button click
-
             $('#data-suhu-table').on('click', '.edit-reading-btn', function() {
-
                 const readingId = $(this).data('id');
-
-                const url = "{{ route('admin.data-suhu.edit', ':id') }}".replace(':id', readingId);
-
-
+                const url = "{{ route('superadmin.data-suhu.edit', ':id') }}".replace(':id', readingId);
 
                 // Clear previous errors
-
                 $('#editDataSuhuForm .invalid-feedback').text('').hide();
-
                 $('#editDataSuhuForm .form-control').removeClass('is-invalid');
 
-
-
                 $.ajax({
-
                     url: url,
-
                     method: 'GET',
-
                     success: function(response) {
-
                         $('#reading_id').val(response.id);
-
                         $('#edit_device_id').val(response.device_id);
-
                         $('#edit_section').val(response.section);
-
                         $('#edit_temperature').val(response.temperature);
-
                         $('#editDataSuhuModal').modal('show');
-
                     },
-
                     error: function(xhr) {
-
                         alert('Error fetching data suhu.');
-
                         console.error(xhr);
-
                     }
-
                 });
-
             });
-
-
 
             // Handle form submission via AJAX
-
             $('#editDataSuhuForm').on('submit', function(e) {
-
                 e.preventDefault();
-
-
 
                 const readingId = $('#reading_id').val();
-
-                const url = "{{ route('admin.data-suhu.update', ':id') }}".replace(':id', readingId);
-
+                const url = "{{ route('superadmin.data-suhu.update', ':id') }}".replace(':id', readingId);
                 const formData = $(this).serialize();
 
-
-
                 // Clear previous errors
-
                 $('#editDataSuhuForm .invalid-feedback').text('').hide();
-
                 $('#editDataSuhuForm .form-control').removeClass('is-invalid');
 
-
-
                 $.ajax({
-
                     url: url,
-
                     method: 'POST', // Use POST for PUT/PATCH with _method field
-
                     data: formData,
-
                     success: function(response) {
-
                         $('#editDataSuhuModal').modal('hide');
-
                         Swal.fire(
-
                             'Success!',
-
                             response.success,
-
                             'success'
-
                         );
-
                         // Update table row
-
                         const row = $(`tr[data-id="${readingId}"]`);
-
                         const deviceName = allDevices.find(d => d.id == $('#edit_device_id').val()).name;
-
                         const sectionBadgeClass = $('#edit_section').val() === 'pagi' ? 'bg-info' : 'bg-warning';
-
                         const sectionText = $('#edit_section').val().charAt(0).toUpperCase() + $('#edit_section').val().slice(1);
 
-
-
                         row.find('.reading-device-name').text(deviceName);
-
                         row.find('.reading-section').html(`<span class="badge ${sectionBadgeClass}">${sectionText}</span>`);
-
                         row.find('.reading-temperature').text($('#edit_temperature').val() + ' °C');
-
                     },
-
                     error: function(xhr) {
-
                         if (xhr.status === 422) { // Validation errors
-
                             const errors = xhr.responseJSON.errors;
-
                             for (const field in errors) {
-
                                 const input = $(`#edit_${field}`);
-
                                 input.addClass('is-invalid');
-
                                 $(`#${field}-error`).text(errors[field][0]).show();
-
                             }
-
                         } else {
-
                             Swal.fire(
-
                                 'Error!',
-
                                 'Error updating data suhu.',
-
                                 'error'
-
                             );
-
                             console.error(xhr);
-
                         }
-
                     }
-
                 });
-
             });
-
-
 
             // Handle create form submission via AJAX
-
             $('#createDataSuhuForm').on('submit', function(e) {
-
                 e.preventDefault();
 
-
-
-                const url = "{{ route('admin.data-suhu.store') }}";
-
+                const url = "{{ route('superadmin.data-suhu.store') }}";
                 const formData = $(this).serialize();
 
-
-
                 // Clear previous errors
-
                 $('#createDataSuhuForm .invalid-feedback').text('').hide();
-
                 $('#createDataSuhuForm .form-control').removeClass('is-invalid');
 
-
-
                 $.ajax({
-
                     url: url,
-
                     method: 'POST',
-
                     data: formData,
-
                     success: function(response) {
-
                         $('#createDataSuhuModal').modal('hide');
-
                         Swal.fire(
-
                             'Success!',
-
                             response.success,
-
                             'success'
-
                         );
-
                         // Reload page to see new data with pagination
-
                         location.reload();
-
                     },
-
                     error: function(xhr) {
-
                         if (xhr.status === 422) { // Validation errors
-
                             const errors = xhr.responseJSON.errors;
-
                             for (const field in errors) {
-
                                 const input = $(`#create_${field}`);
-
                                 input.addClass('is-invalid');
-
                                 $(`#create-${field}-error`).text(errors[field][0]).show();
-
                             }
-
                         } else {
-
                             Swal.fire(
-
                                 'Error!',
-
                                 'Error creating data suhu.',
-
                                 'error'
-
                             );
-
                             console.error(xhr);
-
                         }
-
                     }
-
                 });
-
             });
-
-
 
             // Handle delete form submission via AJAX with SweetAlert2
-
             $('#data-suhu-table').on('submit', '.delete-reading-form', function(e) {
-
                 e.preventDefault();
-
                 console.log('Delete form submitted.');
-
                 const form = $(this);
-
                 const url = form.attr('action');
 
-
-
-                                Swal.fire({
-
-
-
-                                    title: 'Are you sure?',
-
-
-
-                                    text: "You won't be able to revert this!",
-
-
-
-                                    icon: 'warning', 
-
-
-
-                                    showCancelButton: true,
-
-
-
-                                    confirmButtonColor: '#3085d6',
-
-
-
-                                    cancelButtonColor: '#d33',
-
-
-
-                                    confirmButtonText: 'Yes, delete it!'
-
-
-
-                                }).then((result) => {
-
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: "You won't be able to revert this!",
+                    type: 'warning', // Changed from 'icon' to 'type'
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, delete it!'
+                }).then((result) => {
                     if (result.isConfirmed) {
-
                         console.log('Delete confirmed.');
-
-                        try {
-
-                            $.ajax({
-
-                                url: url,
-
-                                method: 'POST', // Use POST for DELETE with _method field
-
-                                data: form.serialize(),
-
-                                success: function(response) {
-
-                                    console.log('Delete successful:', response);
-
-                                    Swal.fire(
-
-                                        'Deleted!',
-
-                                        response.success,
-
-                                        'success'
-
-                                    );
-
-                                    form.closest('tr').remove(); // Remove the row from the table
-
-                                },
-
-                                error: function(xhr) {
-
-                                    console.error('Delete error:', xhr);
-
-                                    const errorMessage = xhr.responseJSON && xhr.responseJSON.error ? xhr.responseJSON.error : 'Error deleting data suhu.';
-
-                                    Swal.fire(
-
-                                        'Error!',
-
-                                        errorMessage,
-
-                                        'error'
-
-                                    );
-
-                                }
-
-                            });
-
-                        } catch (e) {
-
-                            alert('An unexpected error occurred: ' + e.message);
-
-                        }
-
+                        $.ajax({
+                            url: url,
+                            method: 'POST', // Use POST for DELETE with _method field
+                            data: form.serialize(),
+                            success: function(response) {
+                                console.log('Delete successful:', response);
+                                Swal.fire(
+                                    'Deleted!',
+                                    response.success,
+                                    'success'
+                                );
+                                form.closest('tr').remove(); // Remove the row from the table
+                            },
+                            error: function(xhr) {
+                                console.error('Delete error:', xhr);
+                                Swal.fire(
+                                    'Error!',
+                                    'Error deleting data suhu.',
+                                    'error'
+                                );
+                                console.error(xhr);
+                            }
+                        });
                     }
-
                 });
-
             });
-
         });
-
     </script>
-
 @endsection
