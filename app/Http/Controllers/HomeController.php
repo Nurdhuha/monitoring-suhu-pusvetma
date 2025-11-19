@@ -32,10 +32,11 @@ class HomeController extends Controller
     {
         try {
             $deviceIds = $request->input('device_ids');
-            Log::info('getTemperatureData requested with device_ids: ' . json_encode($deviceIds));
+            $timeRange = $request->input('time_range', 'all_time'); // Default to 'all_time'
+            // Log::info('getTemperatureData requested with device_ids: ' . json_encode($deviceIds) . ' and time_range: ' . $timeRange);
 
             if (empty($deviceIds)) {
-                return response()->json(['labels' => [], 'datasets' => []]);
+                return response()->json(['datasets' => []]);
             }
 
             // Ensure deviceIds is an array
@@ -43,15 +44,36 @@ class HomeController extends Controller
                 $deviceIds = [$deviceIds];
             }
 
-            $data = DataSuhu::whereIn('device_id', $deviceIds)
-                            ->orderBy('created_at')
+            $query = DataSuhu::whereIn('device_id', $deviceIds);
+
+            // Add time range condition
+            switch ($timeRange) {
+                case '5_days':
+                    $query->where('created_at', '>=', now()->subDays(5));
+                    break;
+                case '1_month':
+                    $query->where('created_at', '>=', now()->subMonth());
+                    break;
+                case '6_months':
+                    $query->where('created_at', '>=', now()->subMonths(6));
+                    break;
+                case '1_year':
+                    $query->where('created_at', '>=', now()->subYear());
+                    break;
+                case '5_years':
+                    $query->where('created_at', '>=', now()->subYears(5));
+                    break;
+                case 'all_time':
+                default:
+                    // No time range restriction
+                    break;
+            }
+
+            $data = $query->orderBy('created_at')
                             ->get()
                             ->groupBy('device_id');
 
-            $labels = [];
             $datasets = [];
-            $colors = ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF', '#FF9F40']; // Example colors
-
             foreach ($data as $deviceId => $readings) {
                 $device = Device::find($deviceId);
                 if ($device) {
@@ -63,9 +85,8 @@ class HomeController extends Controller
                     ];
 
                     foreach ($readings as $reading) {
-                        $labels[] = $reading->created_at->format('Y-m-d H:i'); // Collect all timestamps for labels
                         $dataset['data'][] = [
-                            'x' => $reading->created_at->format('Y-m-d H:i'),
+                            'x' => $reading->created_at->toIso8601String(), // Use ISO 8601 format
                             'y' => $reading->temperature,
                         ];
                     }
@@ -73,35 +94,16 @@ class HomeController extends Controller
                 }
             }
 
-            // Ensure unique and sorted labels
-            $labels = array_unique($labels);
-            sort($labels);
-
-            // Reformat datasets to match sorted labels
-            foreach ($datasets as &$dataset) {
-                $newData = [];
-                foreach ($labels as $label) {
-                    $found = false;
-                    foreach ($dataset['data'] as $item) {
-                        if ($item['x'] === $label) {
-                            $newData[] = $item['y'];
-                            $found = true;
-                            break;
-                        }
-                    }
-                    if (!$found) {
-                        $newData[] = null; // No data for this timestamp
-                    }
-                }
-                $dataset['data'] = $newData;
-            }
-
-            Log::info('getTemperatureData response: ' . json_encode(['labels' => $labels, 'datasets' => $datasets]));
-            return response()->json(['labels' => $labels, 'datasets' => $datasets]);
+            // Log::info('getTemperatureData response: ' . json_encode(['datasets' => $datasets]));
+            return response()->json(['datasets' => $datasets]);
 
         } catch (\Exception $e) {
-            Log::error('Error in getTemperatureData: ' . $e->getMessage() . ' Stack: ' . $e->getTraceAsString());
-            return response()->json(['error' => 'Failed to fetch temperature data.', 'message' => $e->getMessage()], 500);
+            // Log::error('Error in getTemperatureData: ' . $e->getMessage() . ' Stack: ' . $e->getTraceAsString());
+            return response()->json([
+                'error' => 'Failed to fetch temperature data.',
+                'message' => $e->getMessage(),
+                'trace' => $e->getTraceAsString()
+            ], 500);
         }
     }
 }

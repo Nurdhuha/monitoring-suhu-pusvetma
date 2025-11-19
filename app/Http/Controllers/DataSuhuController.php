@@ -45,7 +45,7 @@ class DataSuhuController extends Controller
         try {
             $validatedData = $request->validate([
                 'device_id' => 'required|exists:devices,id',
-                'section' => 'required|in:pagi,siang',
+                'section' => 'required|in:pagi,sore',
                 'temperature' => 'required|numeric',
             ]);
 
@@ -86,7 +86,7 @@ class DataSuhuController extends Controller
         try {
             $validatedData = $request->validate([
                 'device_id' => 'required|exists:devices,id',
-                'section' => 'required|in:pagi,siang',
+                'section' => 'required|in:pagi,sore',
                 'temperature' => 'required|numeric',
             ]);
 
@@ -105,21 +105,14 @@ class DataSuhuController extends Controller
      */
     public function destroy(DataSuhu $data_suhu)
     {
-        Log::info('Entering destroy method for DataSuhu ID: ' . $data_suhu->id);
-
         try {
-            $deleted = $data_suhu->delete();
-
-            if ($deleted) {
-                Log::info('Successfully deleted DataSuhu ID: ' . $data_suhu->id);
-                return response()->json(['success' => 'Data Suhu deleted successfully.']);
-            } else {
-                Log::error('Failed to delete DataSuhu ID: ' . $data_suhu->id . '. The delete() method returned false.');
-                return response()->json(['error' => 'Failed to delete the record. The delete method returned false.'], 500);
+            if ($data_suhu->delete()) {
+                return redirect()->back()->with('success', 'Data Suhu deleted successfully.');
             }
+            return redirect()->back()->with('error', 'Failed to delete the record.');
         } catch (\Exception $e) {
-            Log::error('Exception caught while deleting DataSuhu ID: ' . $data_suhu->id . '. Message: ' . $e->getMessage());
-            return response()->json(['error' => 'An unexpected server error occurred while attempting to delete the record.'], 500);
+            Log::error('Error deleting DataSuhu: ' . $e->getMessage());
+            return redirect()->back()->with('error', 'An unexpected error occurred while deleting the record.');
         }
     }
 
@@ -133,6 +126,18 @@ class DataSuhuController extends Controller
         $startDate = $request->input('start_date');
         $endDate = $request->input('end_date');
 
-        return Excel::download(new DataSuhuExport($startDate, $endDate), 'data-suhu.xlsx');
+        $filename = 'data-suhu';
+        if ($startDate && $endDate) {
+            $filename .= '_' . $startDate . '_to_' . $endDate;
+        } elseif ($startDate) {
+            $filename .= '_' . $startDate . '_to_present';
+        } elseif ($endDate) {
+            $filename .= '_until_' . $endDate;
+        } else {
+            $filename .= '_all-time';
+        }
+        $filename .= '.xlsx';
+
+        return Excel::download(new DataSuhuExport($startDate, $endDate), $filename);
     }
 }

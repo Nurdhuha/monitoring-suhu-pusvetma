@@ -54,10 +54,10 @@
                                 <button class="btn btn-sm btn-info edit-reading-btn" data-id="{{ $reading->id }}">
                                     <i class="fas fa-edit"></i> Edit
                                 </button>
-                                <form action="{{ route('superadmin.data-suhu.destroy', $reading) }}" method="POST" class="d-inline delete-reading-form">
+                                <form action="{{ route('superadmin.data-suhu.destroy', $reading) }}" method="POST" class="d-inline">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" class="btn btn-sm btn-danger">
+                                    <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure you want to delete this item?');">
                                         <i class="fas fa-trash"></i> Delete
                                     </button>
                                 </form>
@@ -303,49 +303,30 @@
                 });
             });
 
-            // Handle delete form submission via AJAX with SweetAlert2
-            $('#data-suhu-table').on('submit', '.delete-reading-form', function(e) {
+            // Handle download excel form submission
+            $('#downloadExcelForm').on('submit', function(e) {
                 e.preventDefault();
-                console.log('Delete form submitted.');
-                const form = $(this);
-                const url = form.attr('action');
 
-                Swal.fire({
-                    title: 'Are you sure?',
-                    text: "You won't be able to revert this!",
-                    type: 'warning', // Changed from 'icon' to 'type'
-                    showCancelButton: true,
-                    confirmButtonColor: '#3085d6',
-                    cancelButtonColor: '#d33',
-                    confirmButtonText: 'Yes, delete it!'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        console.log('Delete confirmed.');
-                        $.ajax({
-                            url: url,
-                            method: 'POST', // Use POST for DELETE with _method field
-                            data: form.serialize(),
-                            success: function(response) {
-                                console.log('Delete successful:', response);
-                                Swal.fire(
-                                    'Deleted!',
-                                    response.success,
-                                    'success'
-                                );
-                                form.closest('tr').remove(); // Remove the row from the table
-                            },
-                            error: function(xhr) {
-                                console.error('Delete error:', xhr);
-                                Swal.fire(
-                                    'Error!',
-                                    'Error deleting data suhu.',
-                                    'error'
-                                );
-                                console.error(xhr);
-                            }
-                        });
-                    }
-                });
+                const startDate = $('#start_date').val();
+                const endDate = $('#end_date').val();
+                
+                // Determine the correct route based on the user's role
+                const downloadRoute = "{{ Auth::user()->isSuperAdmin() ? route('superadmin.data-suhu.download') : route('admin.data-suhu.download') }}";
+
+                // Construct the URL with query parameters
+                const url = new URL(downloadRoute);
+                if (startDate) {
+                    url.searchParams.append('start_date', startDate);
+                }
+                if (endDate) {
+                    url.searchParams.append('end_date', endDate);
+                }
+
+                // Trigger the download
+                window.location.href = url.toString();
+
+                // Close the modal
+                $('#downloadExcelModal').modal('hide');
             });
         });
     </script>

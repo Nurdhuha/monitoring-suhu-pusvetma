@@ -7,7 +7,7 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form action="{{ route('admin.data-suhu.download') }}" method="GET">
+            <form id="downloadExcelForm">
                 <div class="modal-body">
                     <div class="form-group">
                         <label for="start_date">Start Date</label>

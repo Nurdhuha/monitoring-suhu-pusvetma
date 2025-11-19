@@ -37,6 +37,7 @@
                         <option value="">-- Select a Section --</option>
                         <option value="pagi" {{ old('section') == 'pagi' ? 'selected' : '' }}>Pagi</option>
                         <option value="siang" {{ old('section') == 'siang' ? 'selected' : '' }}>Siang</option>
+                        <option value="sore" {{ old('section') == 'sore' ? 'selected' : '' }}>Sore</option>
                     </select>
                     @error('section')
                         <span class="invalid-feedback" role="alert">

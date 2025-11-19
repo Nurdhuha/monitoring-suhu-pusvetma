@@ -25,18 +25,18 @@ Route::get('/', function () {
 // Admin Routes
 Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
     Route::get('/', [AdminController::class, 'index'])->name('admin.dashboard');
+    Route::get('/data-suhu/download', [DataSuhuController::class, 'downloadExcel'])->name('admin.data-suhu.download');
     Route::resource('devices', DeviceController::class)->names('admin.devices');
     Route::resource('data-suhu', DataSuhuController::class)->names('admin.data-suhu');
-    Route::get('/data-suhu/download', [DataSuhuController::class, 'downloadExcel'])->name('admin.data-suhu.download');
 });
 
 // Super Admin Routes
 Route::middleware(['auth', 'superadmin'])->prefix('superadmin')->group(function () {
     Route::get('/', [SuperAdminController::class, 'index'])->name('superadmin.dashboard');
+    Route::get('/data-suhu/download', [DataSuhuController::class, 'downloadExcel'])->name('superadmin.data-suhu.download');
     Route::resource('users', UserController::class)->names('superadmin.users');
     Route::resource('devices', DeviceController::class)->names('superadmin.devices');
     Route::resource('data-suhu', DataSuhuController::class)->names('superadmin.data-suhu');
-    Route::get('/data-suhu/download', [DataSuhuController::class, 'downloadExcel'])->name('superadmin.data-suhu.download');
 });
 
 // Auth routes (assuming Laravel UI or Breeze is installed)
