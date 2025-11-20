@@ -17,7 +17,7 @@ class UserController extends Controller
     public function index()
     {
         $users = User::all();
-        return view('admin.users.index', compact('users'));
+        return view('superadmin.users.index', compact('users'));
     }
 
     /**
@@ -27,7 +27,7 @@ class UserController extends Controller
      */
     public function create()
     {
-        return view('admin.users.create');
+        return view('superadmin.users.create');
     }
 
     /**
@@ -52,7 +52,7 @@ class UserController extends Controller
             'role' => $request->role,
         ]);
 
-        return redirect()->route('users.index')->with('success', 'User created successfully.');
+        return redirect()->route('superadmin.users.index')->with('success', 'User created successfully.');
     }
 
     /**
@@ -75,7 +75,7 @@ class UserController extends Controller
     public function edit($id)
     {
         $user = User::findOrFail($id);
-        return view('admin.users.edit', compact('user'));
+        return view('superadmin.users.edit', compact('user'));
     }
 
     /**
@@ -106,7 +106,7 @@ class UserController extends Controller
 
         $user->save();
 
-        return redirect()->route('users.index')->with('success', 'User updated successfully.');
+        return redirect()->route('superadmin.users.index')->with('success', 'User updated successfully.');
     }
 
     /**
@@ -120,6 +120,6 @@ class UserController extends Controller
         $user = User::findOrFail($id);
         $user->delete();
 
-        return redirect()->route('users.index')->with('success', 'User deleted successfully.');
+        return redirect()->route('superadmin.users.index')->with('success', 'User deleted successfully.');
     }
 }

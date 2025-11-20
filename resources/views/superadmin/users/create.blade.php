@@ -1,25 +1,24 @@
 @extends('adminlte::page')
 
-@section('title', 'Edit User')
+@section('title', 'Create User')
 
 @section('content_header')
-    <h1>Edit User</h1>
+    <h1>Create User</h1>
 @stop
 
 @section('content')
     <div class="card card-primary">
         <div class="card-header">
-            <h3 class="card-title">Edit User</h3>
+            <h3 class="card-title">Create New User</h3>
         </div>
         <!-- /.card-header -->
         <!-- form start -->
-        <form action="{{ route('users.update', $user->id) }}" method="POST">
+        <form action="{{ route('superadmin.users.store') }}" method="POST">
             @csrf
-            @method('PUT')
             <div class="card-body">
                 <div class="form-group">
                     <label for="name">Name</label>
-                    <input type="text" name="name" class="form-control @error('name') is-invalid @enderror" id="name" placeholder="Enter name" value="{{ old('name', $user->name) }}">
+                    <input type="text" name="name" class="form-control @error('name') is-invalid @enderror" id="name" placeholder="Enter name" value="{{ old('name') }}">
                     @error('name')
                         <span class="invalid-feedback" role="alert">
                             <strong>{{ $message }}</strong>
@@ -28,7 +27,7 @@
                 </div>
                 <div class="form-group">
                     <label for="email">Email</label>
-                    <input type="email" name="email" class="form-control @error('email') is-invalid @enderror" id="email" placeholder="Enter email" value="{{ old('email', $user->email) }}">
+                    <input type="email" name="email" class="form-control @error('email') is-invalid @enderror" id="email" placeholder="Enter email" value="{{ old('email') }}">
                     @error('email')
                         <span class="invalid-feedback" role="alert">
                             <strong>{{ $message }}</strong>
@@ -37,7 +36,7 @@
                 </div>
                 <div class="form-group">
                     <label for="password">Password</label>
-                    <input type="password" name="password" class="form-control @error('password') is-invalid @enderror" id="password" placeholder="Password (leave blank to keep current)">
+                    <input type="password" name="password" class="form-control @error('password') is-invalid @enderror" id="password" placeholder="Password">
                     @error('password')
                         <span class="invalid-feedback" role="alert">
                             <strong>{{ $message }}</strong>
@@ -51,9 +50,9 @@
                 <div class="form-group">
                     <label for="role">Role</label>
                     <select name="role" id="role" class="form-control @error('role') is-invalid @enderror">
-                        <option value="user" {{ old('role', $user->role) == 'user' ? 'selected' : '' }}>User</option>
-                        <option value="admin" {{ old('role', $user->role) == 'admin' ? 'selected' : '' }}>Admin</option>
-                        <option value="superadmin" {{ old('role', $user->role) == 'superadmin' ? 'selected' : '' }}>Super Admin</option>
+                        <option value="user" {{ old('role') == 'user' ? 'selected' : '' }}>User</option>
+                        <option value="admin" {{ old('role') == 'admin' ? 'selected' : '' }}>Admin</option>
+                        <option value="superadmin" {{ old('role') == 'superadmin' ? 'selected' : '' }}>Super Admin</option>
                     </select>
                     @error('role')
                         <span class="invalid-feedback" role="alert">

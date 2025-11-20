@@ -11,7 +11,7 @@
         <div class="card-header">
             <h3 class="card-title">Users</h3>
             <div class="card-tools">
-                <a href="{{ route('users.create') }}" class="btn btn-primary btn-sm">Add New User</a>
+                <a href="{{ route('superadmin.users.create') }}" class="btn btn-primary btn-sm">Add New User</a>
             </div>
         </div>
         <div class="card-body p-0">
@@ -33,8 +33,8 @@
                             <td>{{ $user->email }}</td>
                             <td>{{ $user->role }}</td>
                             <td>
-                                <a href="{{ route('users.edit', $user->id) }}" class="btn btn-info btn-sm">Edit</a>
-                                <form action="{{ route('users.destroy', $user->id) }}" method="POST" style="display: inline-block;">
+                                <a href="{{ route('superadmin.users.edit', $user->id) }}" class="btn btn-info btn-sm">Edit</a>
+                                <form action="{{ route('superadmin.users.destroy', $user->id) }}" method="POST" style="display: inline-block;">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure?')">Delete</button>
