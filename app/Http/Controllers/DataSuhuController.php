@@ -18,7 +18,7 @@ class DataSuhuController extends Controller
      */
     public function index()
     {
-        $dataSuhu = DataSuhu::with(['device', 'user'])->latest()->paginate(10);
+        $dataSuhu = DataSuhu::with(['device', 'user'])->latest()->paginate(10)->onEachSide(0);
         $devices = Device::all(); // Fetch all devices
 
         if (Auth::user()->isSuperAdmin()) {

@@ -74,6 +74,7 @@
         <div class="card-footer clearfix">
             {{ $dataSuhu->links() }}
         </div>
+        </div>
     </div>
 
     {{-- Edit Data Suhu Modal --}}

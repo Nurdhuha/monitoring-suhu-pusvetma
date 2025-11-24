@@ -74,6 +74,7 @@
         <div class="card-footer clearfix">
             {{ $dataSuhu->links() }}
         </div>
+        </div>
     </div>
 
     {{-- Edit Data Suhu Modal --}}
@@ -104,7 +105,7 @@
                             <label for="edit_section">Section</label>
                             <select class="form-control" id="edit_section" name="section" required>
                                 <option value="pagi">Pagi</option>
-                                <option value="siang">Siang</option>
+                                <option value="sore">Sore</option>
                             </select>
                             <span class="invalid-feedback" role="alert" id="section-error"></span>
                         </div>
@@ -149,7 +150,7 @@
                             <label for="create_section">Section</label>
                             <select class="form-control" id="create_section" name="section" required>
                                 <option value="pagi">Pagi</option>
-                                <option value="siang">Siang</option>
+                                <option value="sore">Sore</option>
                             </select>
                             <span class="invalid-feedback" role="alert" id="create-section-error"></span>
                         </div>

@@ -11,7 +11,7 @@
         <div class="card-header">
             <h3 class="card-title">Device Details</h3>
         </div>
-        <form action="{{ route('admin.devices.store') }}" method="POST">
+        <form action="{{ route('superadmin.devices.store') }}" method="POST">
             @csrf
             <div class="card-body">
                 @if ($errors->any())
@@ -35,7 +35,7 @@
             </div>
             <div class="card-footer">
                 <button type="submit" class="btn btn-primary">Submit</button>
-                <a href="{{ route('admin.devices.index') }}" class="btn btn-secondary">Cancel</a>
+                <a href="{{ route('superadmin.devices.index') }}" class="btn btn-secondary">Cancel</a>
             </div>
         </form>
     </div>

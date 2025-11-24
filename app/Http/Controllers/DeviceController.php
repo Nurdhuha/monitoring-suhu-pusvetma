@@ -28,6 +28,10 @@ class DeviceController extends Controller
      */
     public function create()
     {
+        if (Auth::user()->isSuperAdmin()) {
+            return view('superadmin.devices.create');
+        }
+
         return view('admin.devices.create');
     }
 
@@ -45,7 +49,9 @@ class DeviceController extends Controller
         $device->user_id = Auth::id();
         $device->save();
 
-        return redirect()->route('devices.index')
+        $redirectRoute = Auth::user()->isSuperAdmin() ? 'superadmin.devices.index' : 'admin.devices.index';
+
+        return redirect()->route($redirectRoute)
                          ->with('success', 'Device created successfully.');
     }
 
@@ -93,7 +99,9 @@ class DeviceController extends Controller
     {
         $device->delete();
 
-        return redirect()->route('devices.index')
+        $redirectRoute = Auth::user()->isSuperAdmin() ? 'superadmin.devices.index' : 'admin.devices.index';
+
+        return redirect()->route($redirectRoute)
                          ->with('success', 'Device deleted successfully.');
     }
 }
