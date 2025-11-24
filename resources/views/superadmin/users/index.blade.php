@@ -37,7 +37,7 @@
                                 <form action="{{ route('superadmin.users.destroy', $user->id) }}" method="POST" style="display: inline-block;">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure?')">Delete</button>
+                                    <button type="submit" class="btn btn-danger btn-sm delete-user-btn">Delete</button>
                                 </form>
                             </td>
                         </tr>
@@ -53,4 +53,32 @@
 @stop
 
 @section('js')
+    <script>
+        $(document).ready(function() {
+            // Handle delete button click with SweetAlert
+            $('table').on('click', '.delete-user-btn', function(e) {
+                e.preventDefault();
+                const form = $(this).closest('form');
+                const row = $(this).closest('tr');
+                const userName = row.find('td:nth-child(2)').text(); // Assuming name is the second td
+                const userEmail = row.find('td:nth-child(3)').text(); // Assuming email is the third td
+
+                Swal.fire({
+                    title: 'Are you sure?',
+                    html: `You are about to delete the user:<br>
+                           <strong>Name:</strong> ${userName}<br>
+                           <strong>Email:</strong> ${userEmail}`,
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#d33',
+                    cancelButtonColor: '#3085d6',
+                    confirmButtonText: 'Yes, delete it!'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        form.submit();
+                    }
+                });
+            });
+        });
+    </script>
 @stop

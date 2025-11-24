@@ -57,7 +57,7 @@
                                 <form action="{{ route('superadmin.data-suhu.destroy', $reading) }}" method="POST" class="d-inline">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure you want to delete this item?');">
+                                    <button type="submit" class="btn btn-sm btn-danger delete-confirm-btn">
                                         <i class="fas fa-trash"></i> Delete
                                     </button>
                                 </form>
@@ -327,6 +327,34 @@
 
                 // Close the modal
                 $('#downloadExcelModal').modal('hide');
+            });
+
+            // Handle delete button click with SweetAlert
+            $('#data-suhu-table').on('click', '.delete-confirm-btn', function(e) {
+                e.preventDefault();
+                const form = $(this).closest('form');
+                const readingId = form.find('input[name="_method"]').prev().val(); // Get the reading ID from a hidden input if available, or data-id from the row
+                const deviceName = $(this).closest('tr').find('.reading-device-name').text();
+                const section = $(this).closest('tr').find('.reading-section .badge').text();
+                const temperature = $(this).closest('tr').find('.reading-temperature').text();
+
+
+                Swal.fire({
+                    title: 'Are you sure?',
+                    html: `You are about to delete the temperature reading for:<br>
+                           <strong>Device:</strong> ${deviceName}<br>
+                           <strong>Section:</strong> ${section}<br>
+                           <strong>Temperature:</strong> ${temperature}`,
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#d33',
+                    cancelButtonColor: '#3085d6',
+                    confirmButtonText: 'Yes, delete it!'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        form.submit();
+                    }
+                });
             });
         });
     </script>

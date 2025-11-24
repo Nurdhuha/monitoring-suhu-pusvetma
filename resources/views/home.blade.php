@@ -3,7 +3,16 @@
 @section('content')
 <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
     @auth
-    <div class="flex justify-end mb-4">
+    <div class="flex justify-end items-center mb-4 space-x-2">
+        @if(Auth::user()->isSuperAdmin())
+            <a href="{{ route('superadmin.dashboard') }}" class="inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150">
+                {{ __('Back to Dashboard') }}
+            </a>
+        @elseif(Auth::user()->isAdmin())
+            <a href="{{ route('admin.dashboard') }}" class="inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150">
+                {{ __('Back to Dashboard') }}
+            </a>
+        @endif
         <a class="inline-flex items-center px-4 py-2 bg-red-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-red-500 active:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 transition ease-in-out duration-150" href="{{ route('logout') }}"
            onclick="event.preventDefault();
                          document.getElementById('logout-form').submit();">
@@ -307,9 +316,7 @@
                 const selectedDeviceIds = $('#device_selector').val();
                 const selectedTimeRange = $(this).val();
                 console.log("Time range selection changed to:", selectedTimeRange, "with devices:", selectedDeviceIds);
-                if (selectedDeviceIds && selectedDeviceIds.length > 0) {
-                    fetchDataAndRenderChart(selectedDeviceIds, selectedTimeRange);
-                }
+                fetchDataAndRenderChart(selectedDeviceIds, selectedTimeRange);
             });
         });
     </script>

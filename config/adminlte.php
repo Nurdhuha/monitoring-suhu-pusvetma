@@ -286,64 +286,68 @@ return [
     'laravel_css_path' => 'css/app.css',
     'laravel_js_path' => 'js/app.js',
 
-    /*
-    |--------------------------------------------------------------------------
-    | Menu Items
-    |--------------------------------------------------------------------------
-    |
-    | Here we can modify the sidebar/top navigation of the admin panel.
-    |
-    | For detailed instructions you can look here:
-    | https://github.com/jeroennoten/Laravel-AdminLTE/wiki/Menu-Configuration
-    |
-    */
+        /*
+        |--------------------------------------------------------------------------
+        | Menu Items
+        |--------------------------------------------------------------------------
+        |
+        | Here we can modify the sidebar/top navigation of the admin panel.
+        |
+        | For detailed instructions you can look here:
+        | https://github.com/jeroennoten/Laravel-AdminLTE/wiki/Menu-Configuration
+        |
+        */
 
-    'menu' => [
-        // Main navigation for admin
-        [
-            'text' => 'Dashboard',
-            'route' => 'admin.dashboard',
-            'icon' => 'fas fa-fw fa-tachometer-alt',
-            'can' => 'admin-access',
+        'menu' => [
+            // Navbar items:
+            [
+                'type'         => 'navbar-search',
+                'text'         => 'search',
+                'topnav_right' => true,
+            ],
+            [
+                'type'         => 'fullscreen-widget',
+                'topnav_right' => true,
+            ],
+
+            // Sidebar items:
+            [
+                'text' => 'Home',
+                'url'  => 'home',
+                'icon' => 'fas fa-fw fa-home',
+            ],
+            ['header' => 'MANAGEMENT'],
+            [
+                'text' => 'Manage Users',
+                'route' => 'superadmin.users.index',
+                'icon' => 'fas fa-fw fa-users',
+                'can' => 'superadmin-access',
+            ],
+            [
+                'text' => 'Manage Devices',
+                'route' => 'superadmin.devices.index',
+                'icon' => 'fas fa-fw fa-desktop',
+                'can' => 'superadmin-access',
+            ],
+            [
+                'text' => 'Manage Data Suhu',
+                'route' => 'superadmin.data-suhu.index',
+                'icon' => 'fas fa-fw fa-thermometer-half',
+                'can' => 'superadmin-access',
+            ],
+            [
+                'text' => 'Manage Devices',
+                'route' => 'admin.devices.index',
+                'icon' => 'fas fa-fw fa-desktop',
+                'can' => 'admin-access',
+            ],
+            [
+                'text' => 'Manage Data Suhu',
+                'route' => 'admin.data-suhu.index',
+                'icon' => 'fas fa-fw fa-thermometer-half',
+                'can' => 'admin-access',
+            ],
         ],
-        [
-            'text' => 'Devices',
-            'route' => 'admin.devices.index',
-            'icon' => 'fas fa-fw fa-desktop',
-            'can' => 'admin-access',
-        ],
-        [
-            'text' => 'Data Suhu',
-            'route' => 'admin.data-suhu.index',
-            'icon' => 'fas fa-fw fa-thermometer-half',
-            'can' => 'admin-access',
-        ],
-        // Main navigation for superadmin
-        [
-            'text' => 'Dashboard',
-            'route' => 'superadmin.dashboard',
-            'icon' => 'fas fa-fw fa-tachometer-alt',
-            'can' => 'superadmin-access',
-        ],
-        [
-            'text' => 'Users',
-            'route' => 'superadmin.users.index',
-            'icon' => 'fas fa-fw fa-users',
-            'can' => 'superadmin-access',
-        ],
-        [
-            'text' => 'Devices',
-            'route' => 'superadmin.devices.index',
-            'icon' => 'fas fa-fw fa-desktop',
-            'can' => 'superadmin-access',
-        ],
-        [
-            'text' => 'Data Suhu',
-            'route' => 'superadmin.data-suhu.index',
-            'icon' => 'fas fa-fw fa-thermometer-half',
-            'can' => 'superadmin-access',
-        ],
-    ],
 
     /*
     |--------------------------------------------------------------------------
