@@ -140,27 +140,6 @@
             console.log("Canvas context obtained.");
 
             let temperatureChart;
-            const deviceColors = {}; // Store device_id -> color mapping
-            const availableColors = [
-                'rgb(255, 99, 132)',  // Red
-                'rgb(54, 162, 235)',  // Blue
-                'rgb(255, 206, 86)',  // Yellow
-                'rgb(75, 192, 192)',  // Green
-                'rgb(153, 102, 255)', // Purple
-                'rgb(255, 159, 64)',  // Orange
-                'rgb(201, 203, 207)', // Grey
-                'rgb(70, 130, 180)',  // Steel Blue
-                'rgb(60, 179, 113)'   // Medium Sea Green
-            ];
-            let colorIndex = 0;
-
-            function getDeviceColor(deviceId) {
-                if (!deviceColors[deviceId]) {
-                    deviceColors[deviceId] = availableColors[colorIndex % availableColors.length];
-                    colorIndex++;
-                }
-                return deviceColors[deviceId];
-            }
 
             function getTimeUnit(timeRange) {
                 switch (timeRange) {
@@ -218,12 +197,11 @@
                         }
 
                         const datasets = response.datasets.map(dataset => {
-                            const color = getDeviceColor(dataset.device_id); // Get persistent color
                             return {
                                 label: dataset.label,
                                 data: dataset.data,
-                                borderColor: color,
-                                backgroundColor: color, // Use same color for background
+                                borderColor: dataset.borderColor,
+                                backgroundColor: dataset.backgroundColor,
                                 fill: false,
                                 tension: 0.1
                             };

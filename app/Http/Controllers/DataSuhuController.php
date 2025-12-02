@@ -16,16 +16,30 @@ class DataSuhuController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $dataSuhu = DataSuhu::with(['device', 'user'])->latest()->paginate(10)->onEachSide(0);
-        $devices = Device::all(); // Fetch all devices
+        $query = DataSuhu::with(['device', 'user'])->latest();
 
-        if (Auth::user()->isSuperAdmin()) {
-            return view('superadmin.data-suhu.index', compact('dataSuhu', 'devices'));
+        $selectedDeviceId = $request->input('device_id');
+
+        if ($selectedDeviceId) {
+            $query->where('device_id', $selectedDeviceId);
         }
 
-        return view('admin.data-suhu.index', compact('dataSuhu', 'devices'));
+        $dataSuhu = $query->paginate(10)->onEachSide(0)->appends($request->query());
+        $devices = Device::all();
+
+        $viewData = [
+            'dataSuhu' => $dataSuhu,
+            'devices' => $devices,
+            'selectedDeviceId' => $selectedDeviceId,
+        ];
+
+        if (Auth::user()->isSuperAdmin()) {
+            return view('superadmin.data-suhu.index', $viewData);
+        }
+
+        return view('admin.data-suhu.index', $viewData);
     }
 
     /**
@@ -123,21 +137,31 @@ class DataSuhuController extends Controller
      */
     public function downloadExcel(Request $request)
     {
+        $deviceId = $request->input('device_id');
         $startDate = $request->input('start_date');
         $endDate = $request->input('end_date');
 
         $filename = 'data-suhu';
+        if ($deviceId) {
+            $device = Device::find($deviceId);
+            if ($device) {
+                $filename .= '_' . str_replace(' ', '-', $device->name);
+            }
+        }
         if ($startDate && $endDate) {
             $filename .= '_' . $startDate . '_to_' . $endDate;
         } elseif ($startDate) {
             $filename .= '_' . $startDate . '_to_present';
         } elseif ($endDate) {
             $filename .= '_until_' . $endDate;
-        } else {
+        }
+        
+        if (!$startDate && !$endDate && !$deviceId) {
             $filename .= '_all-time';
         }
+        
         $filename .= '.xlsx';
 
-        return Excel::download(new DataSuhuExport($startDate, $endDate), $filename);
+        return Excel::download(new DataSuhuExport($deviceId, $startDate, $endDate), $filename);
     }
 }

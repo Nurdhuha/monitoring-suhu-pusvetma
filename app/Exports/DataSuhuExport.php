@@ -10,11 +10,13 @@ use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 
 class DataSuhuExport implements FromQuery, WithHeadings, WithMapping, ShouldAutoSize
 {
+    protected $deviceId;
     protected $startDate;
     protected $endDate;
 
-    public function __construct($startDate = null, $endDate = null)
+    public function __construct($deviceId = null, $startDate = null, $endDate = null)
     {
+        $this->deviceId = $deviceId;
         $this->startDate = $startDate;
         $this->endDate = $endDate;
     }
@@ -24,7 +26,11 @@ class DataSuhuExport implements FromQuery, WithHeadings, WithMapping, ShouldAuto
     */
     public function query()
     {
-        $query = DataSuhu::with(['device', 'user']);
+        $query = DataSuhu::with(['device', 'user'])->latest();
+
+        if ($this->deviceId) {
+            $query->where('device_id', $this->deviceId);
+        }
 
         if ($this->startDate) {
             $query->whereDate('created_at', '>=', $this->startDate);
@@ -44,9 +50,7 @@ class DataSuhuExport implements FromQuery, WithHeadings, WithMapping, ShouldAuto
     {
         // Tentukan nama kolom di file Excel
         return [
-            'ID',
             'Device Name',
-            'Location',
             'Admin',
             'Section',
             'Temperature (°C)',
@@ -63,9 +67,7 @@ class DataSuhuExport implements FromQuery, WithHeadings, WithMapping, ShouldAuto
     {
         // Petakan setiap baris data ke kolom yang sesuai
         return [
-            $dataSuhu->id,
             $dataSuhu->device->name ?? 'N/A',
-            $dataSuhu->device->location ?? 'N/A',
             $dataSuhu->user->name ?? 'N/A',
             ucfirst($dataSuhu->section),
             $dataSuhu->temperature,

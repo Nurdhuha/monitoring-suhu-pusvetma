@@ -10,6 +10,17 @@
             <form id="downloadExcelForm">
                 <div class="modal-body">
                     <div class="form-group">
+                        <label for="download_device_id">Device</label>
+                        <select name="device_id" id="download_device_id" class="form-control">
+                            <option value="">All Devices</option>
+                            @foreach($devices as $device)
+                                <option value="{{ $device->id }}">
+                                    {{ $device->name }} ({{ $device->location }})
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="form-group">
                         <label for="start_date">Start Date</label>
                         <input type="date" name="start_date" id="start_date" class="form-control">
                     </div>

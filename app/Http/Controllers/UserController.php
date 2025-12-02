@@ -38,21 +38,26 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:8|confirmed',
-            'role' => 'required|in:user,admin,superadmin',
-        ]);
+        try {
+            $validatedData = $request->validate([
+                'name' => 'required|string|max:255',
+                'email' => 'required|string|email|max:255|unique:users',
+                'password' => 'required|string|min:8|confirmed',
+                'role' => 'required|in:user,admin,superadmin',
+            ]);
 
-        User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-            'role' => $request->role,
-        ]);
+            User::create([
+                'name' => $validatedData['name'],
+                'email' => $validatedData['email'],
+                'password' => Hash::make($validatedData['password']),
+                'role' => $validatedData['role'],
+            ]);
 
-        return redirect()->route('superadmin.users.index')->with('success', 'User created successfully.');
+            return response()->json(['success' => 'User created successfully.']);
+
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            return response()->json(['errors' => $e->errors()], 422);
+        }
     }
 
     /**
@@ -75,7 +80,7 @@ class UserController extends Controller
     public function edit($id)
     {
         $user = User::findOrFail($id);
-        return view('superadmin.users.edit', compact('user'));
+        return response()->json($user);
     }
 
     /**
@@ -89,24 +94,29 @@ class UserController extends Controller
     {
         $user = User::findOrFail($id);
 
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users,email,' . $id,
-            'password' => 'nullable|string|min:8|confirmed',
-            'role' => 'required|in:user,admin,superadmin',
-        ]);
+        try {
+            $validatedData = $request->validate([
+                'name' => 'required|string|max:255',
+                'email' => 'required|string|email|max:255|unique:users,email,' . $id,
+                'password' => 'nullable|string|min:8|confirmed',
+                'role' => 'required|in:user,admin,superadmin',
+            ]);
 
-        $user->name = $request->name;
-        $user->email = $request->email;
-        $user->role = $request->role;
+            $user->name = $validatedData['name'];
+            $user->email = $validatedData['email'];
+            $user->role = $validatedData['role'];
 
-        if ($request->filled('password')) {
-            $user->password = Hash::make($request->password);
+            if (!empty($validatedData['password'])) {
+                $user->password = Hash::make($validatedData['password']);
+            }
+
+            $user->save();
+
+            return response()->json(['success' => 'User updated successfully.']);
+
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            return response()->json(['errors' => $e->errors()], 422);
         }
-
-        $user->save();
-
-        return redirect()->route('superadmin.users.index')->with('success', 'User updated successfully.');
     }
 
     /**

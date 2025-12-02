@@ -20,6 +20,20 @@
             </div>
         </div>
         <div class="card-body">
+            <form action="{{ route('superadmin.data-suhu.index') }}" method="GET" class="form-inline mb-3">
+                <div class="form-group">
+                    <label for="device_id" class="mr-2">Filter by Device:</label>
+                    <select name="device_id" id="device_id" class="form-control" onchange="this.form.submit()">
+                        <option value="">All Devices</option>
+                        @foreach($devices as $device)
+                            <option value="{{ $device->id }}" {{ $selectedDeviceId == $device->id ? 'selected' : '' }}>
+                                {{ $device->name }} ({{ $device->location }})
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+            </form>
+
             <div id="alert-container">
                 @if (session('success'))
                     <div class="alert alert-success alert-dismissible">
@@ -308,6 +322,7 @@
             $('#downloadExcelForm').on('submit', function(e) {
                 e.preventDefault();
 
+                const deviceId = $('#download_device_id').val();
                 const startDate = $('#start_date').val();
                 const endDate = $('#end_date').val();
                 
@@ -316,6 +331,9 @@
 
                 // Construct the URL with query parameters
                 const url = new URL(downloadRoute);
+                if (deviceId) {
+                    url.searchParams.append('device_id', deviceId);
+                }
                 if (startDate) {
                     url.searchParams.append('start_date', startDate);
                 }

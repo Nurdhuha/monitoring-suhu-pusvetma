@@ -49,7 +49,7 @@ class HomeController extends Controller
             // Add time range condition
             switch ($timeRange) {
                 case '5_days':
-                    $query->where('created_at', '>=', now()->subDays(5));
+                    $query->where('created_at', '>=', now()->subDays(4));
                     break;
                 case '1_month':
                     $query->where('created_at', '>=', now()->subMonth());
@@ -77,20 +77,42 @@ class HomeController extends Controller
             foreach ($data as $deviceId => $readings) {
                 $device = Device::find($deviceId);
                 if ($device) {
-                    $dataset = [
-                        'label' => $device->name . ' (' . $device->location . ')',
-                        'data' => [],
-                        'device_id' => $deviceId, // Add device_id for frontend color mapping
-                        'fill' => false,
-                    ];
+                    $pagiData = [];
+                    $soreData = [];
 
                     foreach ($readings as $reading) {
-                        $dataset['data'][] = [
-                            'x' => $reading->created_at->toIso8601String(), // Use ISO 8601 format
-                            'y' => $reading->temperature,
+                        if ($reading->section === 'pagi') {
+                            $pagiData[] = [
+                                'x' => $reading->created_at->toIso8601String(),
+                                'y' => $reading->temperature,
+                            ];
+                        } else {
+                            $soreData[] = [
+                                'x' => $reading->created_at->toIso8601String(),
+                                'y' => $reading->temperature,
+                            ];
+                        }
+                    }
+
+                    if (!empty($pagiData)) {
+                        $datasets[] = [
+                            'label' => $device->name . ' (' . $device->location . ') - Pagi',
+                            'data' => $pagiData,
+                            'borderColor' => 'rgb(54, 162, 235)',
+                            'backgroundColor' => 'rgb(54, 162, 235)',
+                            'fill' => false,
                         ];
                     }
-                    $datasets[] = $dataset;
+
+                    if (!empty($soreData)) {
+                        $datasets[] = [
+                            'label' => $device->name . ' (' . $device->location . ') - Sore',
+                            'data' => $soreData,
+                            'borderColor' => 'rgb(255, 206, 86)',
+                            'backgroundColor' => 'rgb(255, 206, 86)',
+                            'fill' => false,
+                        ];
+                    }
                 }
             }
 
