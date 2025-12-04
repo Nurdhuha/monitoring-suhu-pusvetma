@@ -14,8 +14,8 @@ return [
     |
     */
 
-    'title' => 'AdminLTE 3',
-    'title_prefix' => '',
+    'title' => 'Monitoring Suhu',
+    'title_prefix' => 'Pusvetma | ',
     'title_postfix' => '',
 
     /*
@@ -31,7 +31,7 @@ return [
     */
 
     'use_ico_only' => false,
-    'use_full_favicon' => false,
+    'use_full_favicon' => true,
 
     /*
     |--------------------------------------------------------------------------
@@ -63,12 +63,12 @@ return [
     |
     */
 
-    'logo' => '<b>Admin</b>LTE',
-    'logo_img' => 'vendor/adminlte/dist/img/AdminLTELogo.png',
+    'logo' => '<b>Monitoring</b> Suhu',
+    'logo_img' => 'asset/logo-suhu.png',
     'logo_img_class' => 'brand-image img-circle elevation-3',
     'logo_img_xl' => null,
     'logo_img_xl_class' => 'brand-image-xs',
-    'logo_img_alt' => 'Admin Logo',
+    'logo_img_alt' => 'Logo Suhu',
 
     /*
     |--------------------------------------------------------------------------
@@ -113,8 +113,8 @@ return [
         'enabled' => true,
         'mode' => 'fullscreen',
         'img' => [
-            'path' => 'vendor/adminlte/dist/img/AdminLTELogo.png',
-            'alt' => 'AdminLTE Preloader Image',
+            'path' => 'asset/logo-suhu.png',
+            'alt' => 'Suhu Preloader Image',
             'effect' => 'animation__shake',
             'width' => 60,
             'height' => 60,
@@ -257,7 +257,7 @@ return [
     */
 
     'use_route_url' => false,
-    'dashboard_url' => 'home',
+    'dashboard_url' => 'dashboard',
     'logout_url' => 'logout',
     'login_url' => 'login',
     'register_url' => 'register',
@@ -301,11 +301,6 @@ return [
         'menu' => [
             // Navbar items:
             [
-                'type'         => 'navbar-search',
-                'text'         => 'search',
-                'topnav_right' => true,
-            ],
-            [
                 'type'         => 'fullscreen-widget',
                 'topnav_right' => true,
             ],
@@ -313,10 +308,23 @@ return [
             // Sidebar items:
             [
                 'text' => 'Home',
-                'url'  => 'home',
+                'route'  => 'superadmin.home',
                 'icon' => 'fas fa-fw fa-home',
+                'can'  => 'superadmin-only'
             ],
-            ['header' => 'MANAGEMENT'],
+            [
+                'text' => 'Home',
+                'route'  => 'admin.home',
+                'icon' => 'fas fa-fw fa-home',
+                'can'  => 'admin-only'
+            ],
+            [
+                'text' => 'Home',
+                'route'  => 'home',
+                'icon' => 'fas fa-fw fa-home',
+                'can'  => 'user-only'
+            ],
+        
             [
                 'text' => 'Manage Users',
                 'route' => 'superadmin.users.index',
@@ -405,7 +413,7 @@ return [
             ],
         ],
         'Select2' => [
-            'active' => false,
+            'active' => true,
             'files' => [
                 [
                     'type' => 'js',
@@ -420,12 +428,22 @@ return [
             ],
         ],
         'Chartjs' => [
-            'active' => false,
+            'active' => true,
             'files' => [
                 [
                     'type' => 'js',
                     'asset' => false,
-                    'location' => '//cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.0/Chart.bundle.min.js',
+                    'location' => '//cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js',
+                ],
+                [
+                    'type' => 'js',
+                    'asset' => false,
+                    'location' => '//cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.bundle.min.js',
+                ],
+                [
+                    'type' => 'js',
+                    'asset' => false,
+                    'location' => '//cdnjs.cloudflare.com/ajax/libs/chartjs-adapter-moment/1.0.0/chartjs-adapter-moment.min.js',
                 ],
             ],
         ],
@@ -451,6 +469,16 @@ return [
                     'type' => 'js',
                     'asset' => false,
                     'location' => '//cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/pace.min.js',
+                ],
+            ],
+        ],
+        'CustomStyles' => [
+            'active' => true,
+            'files' => [
+                [
+                    'type' => 'css',
+                    'asset' => true,
+                    'location' => 'css/custom.css',
                 ],
             ],
         ],

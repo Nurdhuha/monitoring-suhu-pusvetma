@@ -24,7 +24,8 @@ Route::get('/', function () {
 
 // Admin Routes
 Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
-    Route::get('/', [AdminController::class, 'index'])->name('admin.dashboard');
+    Route::get('/home', [AdminController::class, 'home'])->name('admin.home');
+    Route::get('/', [AdminController::class, 'home'])->name('admin.dashboard');
     Route::get('/data-suhu/download', [DataSuhuController::class, 'downloadExcel'])->name('admin.data-suhu.download');
     Route::resource('devices', DeviceController::class)->names('admin.devices');
     Route::resource('data-suhu', DataSuhuController::class)->names('admin.data-suhu');
@@ -32,7 +33,8 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
 
 // Super Admin Routes
 Route::middleware(['auth', 'superadmin'])->prefix('superadmin')->group(function () {
-    Route::get('/', [SuperAdminController::class, 'index'])->name('superadmin.dashboard');
+    Route::get('/home', [SuperAdminController::class, 'home'])->name('superadmin.home');
+    Route::get('/', [SuperAdminController::class, 'home'])->name('superadmin.dashboard');
     Route::get('/data-suhu/download', [DataSuhuController::class, 'downloadExcel'])->name('superadmin.data-suhu.download');
     Route::resource('users', UserController::class)->names('superadmin.users');
     Route::resource('devices', DeviceController::class)->names('superadmin.devices');
@@ -43,5 +45,6 @@ Route::middleware(['auth', 'superadmin'])->prefix('superadmin')->group(function 
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home')->middleware('auth');
+Route::get('/dashboard', [App\Http\Controllers\HomeController::class, 'dashboard'])->name('dashboard')->middleware('auth');
 
 Route::get('/get-temperature-data', [App\Http\Controllers\HomeController::class, 'getTemperatureData'])->name('get.temperature.data');

@@ -6,6 +6,10 @@
 
         <title>Laravel</title>
 
+        <!-- Favicon -->
+        <link rel="icon" href="{{ asset('favicon.ico') }}" type="image/x-icon">
+        <link rel="apple-touch-icon" href="{{ asset('favicon.ico') }}">
+
         <!-- Fonts -->
         <link href="https://fonts.bunny.net/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
 

@@ -68,7 +68,11 @@ class DeviceController extends Controller
      */
     public function edit(Device $device)
     {
-        return response()->json($device);
+        if (Auth::user()->isSuperAdmin()) {
+            return view('superadmin.devices.edit', compact('device'));
+        }
+
+        return view('admin.devices.edit', compact('device'));
     }
 
     /**
@@ -76,20 +80,17 @@ class DeviceController extends Controller
      */
     public function update(Request $request, Device $device)
     {
-        try {
-            $validatedData = $request->validate([
-                'name' => 'required|string|max:255',
-                'location' => 'nullable|string|max:255',
-            ]);
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'location' => 'nullable|string|max:255',
+        ]);
 
-            $device->update($validatedData);
+        $device->update($request->all());
 
-            return response()->json(['success' => 'Device updated successfully.']);
-        } catch (ValidationException $e) {
-            return response()->json(['errors' => $e->errors()], 422);
-        } catch (\Exception $e) {
-            return response()->json(['error' => 'An unexpected error occurred.'], 500);
-        }
+        $redirectRoute = Auth::user()->isSuperAdmin() ? 'superadmin.devices.index' : 'admin.devices.index';
+
+        return redirect()->route($redirectRoute)
+                         ->with('success', 'Device updated successfully.');
     }
 
     /**

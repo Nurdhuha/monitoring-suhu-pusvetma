@@ -1,0 +1,67 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+body {
+    font-family: 'Inter', sans-serif;
+    color: #4C566A;
+}
+
+/* Custom CSS for modernizing AdminLTE - Nord Theme Inspired */
+
+/* Main Background */
+.content-wrapper {
+    background-color: #ECEFF4 !important;
+}
+
+/* Sidebar */
+.main-sidebar {
+    background-color: #2E3440 !important;
+}
+
+/* Sidebar Text */
+.nav-sidebar .nav-link,
+.brand-text {
+    color: #ECEFF4 !important;
+}
+
+.nav-sidebar .nav-link.active {
+    background-color: #88C0D0 !important;
+    color: #2E3440 !important;
+}
+
+.nav-sidebar .nav-link:hover {
+    background-color: #3B4252 !important;
+}
+
+/* Navbar */
+.main-header {
+    background-color: #FFFFFF !important;
+    border-bottom: 1px solid #D8DEE9 !important;
+}
+
+.main-header .nav-link,
+.main-header .navbar-text {
+    color: #2E3440 !important;
+}
+
+/* Cards */
+.card {
+    border: none;
+    border-radius: 0.5rem;
+    box-shadow: 0 0 1px rgba(0,0,0,.125), 0 1px 3px rgba(0,0,0,.2);
+}
+
+.card-header {
+    background-color: transparent;
+    border-bottom: 1px solid rgba(0,0,0,.125);
+}
+
+/* Buttons */
+.btn-primary {
+    background-color: #88C0D0;
+    border-color: #88C0D0;
+}
+
+.btn-primary:hover, .btn-primary:focus {
+    background-color: #81A1C1;
+    border-color: #81A1C1;
+}

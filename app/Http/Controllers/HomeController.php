@@ -7,6 +7,7 @@ use App\Models\DataSuhu; // Import the DataSuhu model
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log; // Import the Log facade
+use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {
@@ -17,9 +18,24 @@ class HomeController extends Controller
      */
     public function index()
     {
+        if (Auth::user()->isAdmin()) {
+            return redirect()->route('admin.home');
+        }
+
         $devices = Device::all(); // Fetch all devices
         $dataSuhu = DataSuhu::with('device')->latest()->take(10)->get(); // Fetch latest 10 temperature readings
         return view('home', compact('devices', 'dataSuhu')); // Pass both to the view
+    }
+
+    public function dashboard()
+    {
+        if (Auth::user()->isSuperAdmin()) {
+            return redirect()->route('superadmin.home');
+        } elseif (Auth::user()->isAdmin()) {
+            return redirect()->route('admin.home');
+        } else {
+            return redirect()->route('home');
+        }
     }
 
     /**
@@ -77,42 +93,21 @@ class HomeController extends Controller
             foreach ($data as $deviceId => $readings) {
                 $device = Device::find($deviceId);
                 if ($device) {
-                    $pagiData = [];
-                    $soreData = [];
+                    $dataset = [
+                        'label' => $device->name . ' (' . $device->location . ')',
+                        'data' => [],
+                        'device_id' => $deviceId, // Add device_id for frontend color mapping
+                        'fill' => false,
+                    ];
 
                     foreach ($readings as $reading) {
-                        if ($reading->section === 'pagi') {
-                            $pagiData[] = [
-                                'x' => $reading->created_at->toIso8601String(),
-                                'y' => $reading->temperature,
-                            ];
-                        } else {
-                            $soreData[] = [
-                                'x' => $reading->created_at->toIso8601String(),
-                                'y' => $reading->temperature,
-                            ];
-                        }
-                    }
-
-                    if (!empty($pagiData)) {
-                        $datasets[] = [
-                            'label' => $device->name . ' (' . $device->location . ') - Pagi',
-                            'data' => $pagiData,
-                            'borderColor' => 'rgb(54, 162, 235)',
-                            'backgroundColor' => 'rgb(54, 162, 235)',
-                            'fill' => false,
+                        $dataset['data'][] = [
+                            'x' => $reading->created_at->toIso8601String(), // Use ISO 8601 format
+                            'y' => $reading->temperature,
+                            'section' => $reading->section, // Add section data
                         ];
                     }
-
-                    if (!empty($soreData)) {
-                        $datasets[] = [
-                            'label' => $device->name . ' (' . $device->location . ') - Sore',
-                            'data' => $soreData,
-                            'borderColor' => 'rgb(255, 206, 86)',
-                            'backgroundColor' => 'rgb(255, 206, 86)',
-                            'fill' => false,
-                        ];
-                    }
+                    $datasets[] = $dataset;
                 }
             }
 

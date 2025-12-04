@@ -11,9 +11,9 @@
         <div class="card-header">
             <h3 class="card-title">Device List</h3>
             <div class="card-tools">
-                <a href="{{ route('admin.devices.create') }}" class="btn btn-primary btn-sm">
+                <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#addDeviceModal">
                     <i class="fas fa-plus"></i> Add New Device
-                </a>
+                </button>
             </div>
         </div>
         <div class="card-body">
@@ -44,7 +44,9 @@
                             <td>{{ $device->user->name ?? 'N/A' }}</td>
                             <td>{{ $device->created_at->format('d M Y H:i') }}</td>
                             <td>
-                                {{-- <a href="{{ route('admin.devices.edit', $device->id) }}" class="btn btn-info btn-sm">Edit</a> --}}
+                                <a href="{{ route('admin.devices.edit', $device->id) }}" class="btn btn-info btn-sm">
+    <i class="fas fa-edit"></i> Edit
+</a>
                                 <form action="{{ route('admin.devices.destroy', $device->id) }}" method="POST" class="d-inline delete-form">
                                     @csrf
                                     @method('DELETE')
@@ -64,6 +66,37 @@
         </div>
         <div class="card-footer clearfix">
             {{ $devices->links() }}
+        </div>
+    </div>
+
+    <!-- Add Device Modal -->
+    <div class="modal fade" id="addDeviceModal" tabindex="-1" role="dialog" aria-labelledby="addDeviceModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addDeviceModalLabel">Add New Device</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form action="{{ route('admin.devices.store') }}" method="POST">
+                    @csrf
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="name">Device Name</label>
+                            <input type="text" class="form-control" id="name" name="name" placeholder="Enter device name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="location">Location</label>
+                            <input type="text" class="form-control" id="location" name="location" placeholder="Enter location (optional)">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Save Device</button>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
 @stop

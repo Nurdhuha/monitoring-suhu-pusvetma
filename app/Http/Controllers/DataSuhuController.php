@@ -16,32 +16,121 @@ class DataSuhuController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request)
-    {
-        $query = DataSuhu::with(['device', 'user'])->latest();
-
-        $selectedDeviceId = $request->input('device_id');
-
-        if ($selectedDeviceId) {
-            $query->where('device_id', $selectedDeviceId);
+        public function index(Request $request)
+        {
+            // Get selected device IDs for the chart (can be multiple)
+            $selectedChartDeviceIds = (array) $request->input('chart_device_ids', []);
+    
+            // Get selected device ID for the list (can only be one)
+            $selectedListDeviceId = $request->input('list_device_id');
+    
+            $timeRange = $request->input('time_range', '5_days');
+    
+            // Query for the data list
+            $listQuery = DataSuhu::with(['device', 'user'])->latest();
+            if ($selectedListDeviceId) {
+                $listQuery->where('device_id', $selectedListDeviceId);
+            }
+    
+            $dataSuhu = $listQuery->paginate(10)->appends($request->query());
+            $devices = Device::all();
+    
+            // Query for the chart
+            $chartQuery = DataSuhu::query()
+                ->with('device') // Eager load device information
+                ->select('device_id', 'temperature', 'section', 'created_at')
+                ->orderBy('created_at');
+    
+            // If chart device IDs are selected, use them. Otherwise, if the list device ID is selected, use it for the chart too.
+            $chartDeviceIds = !empty($selectedChartDeviceIds) ? $selectedChartDeviceIds : ($selectedListDeviceId ? [$selectedListDeviceId] : []);
+    
+            if (!empty($chartDeviceIds)) {
+                $chartQuery->whereIn('device_id', $chartDeviceIds);
+            }
+    
+            switch ($timeRange) {
+                case '5_days':
+                    $chartQuery->where('created_at', '>=', now()->subDays(5));
+                    break;
+                case '1_month':
+                    $chartQuery->where('created_at', '>=', now()->subMonth());
+                    break;
+                case '6_months':
+                    $chartQuery->where('created_at', '>=', now()->subMonths(6));
+                    break;
+                case '1_year':
+                    $chartQuery->where('created_at', '>=', now()->subYear());
+                    break;
+                case 'all_time':
+                    // No time range restriction
+                    break;
+                default:
+                    $chartQuery->where('created_at', '>=', now()->subDays(5));
+                    break;
+            }
+    
+            $readings = $chartQuery->get();
+    
+            $datasets = [];
+            $deviceColors = [];
+            $colors = [
+                'rgb(255, 99, 132)',  // Red
+                'rgb(54, 162, 235)',  // Blue
+                'rgb(255, 206, 86)',  // Yellow
+                'rgb(75, 192, 192)',  // Green
+                'rgb(153, 102, 255)', // Purple
+                'rgb(255, 159, 64)',  // Orange
+                'rgb(70, 130, 180)',  // Steel Blue
+                'rgb(60, 179, 113)'   // Medium Sea Green
+            ];
+            $colorIndex = 0;
+    
+            $groupedReadings = $readings->groupBy('device_id');
+    
+            foreach ($groupedReadings as $deviceId => $deviceReadings) {
+                $device = $devices->find($deviceId);
+                if ($device) {
+                    if (!isset($deviceColors[$deviceId])) {
+                        $deviceColors[$deviceId] = $colors[$colorIndex % count($colors)];
+                        $colorIndex++;
+                    }
+    
+                    $datasets[] = [
+                        'label' => $device->name . ' (' . $device->location . ')',
+                        'data' => $deviceReadings->map(function ($item) {
+                            return [
+                                'x' => $item->created_at->toIso8601String(),
+                                'y' => $item->temperature,
+                                'section' => $item->section,
+                            ];
+                        })->values(),
+                        'borderColor' => $deviceColors[$deviceId],
+                        'backgroundColor' => 'rgba(201, 203, 207, 0.5)',
+                        'fill' => false,
+                        'tension' => 0.1,
+                    ];
+                }
+            }
+    
+            $chartData = [
+                'datasets' => $datasets,
+            ];
+    
+            $viewData = [
+                'dataSuhu' => $dataSuhu,
+                'devices' => $devices,
+                'selectedChartDeviceIds' => $chartDeviceIds, // Pass the effective IDs to the view
+                'selectedListDeviceId' => $selectedListDeviceId,
+                'timeRange' => $timeRange,
+                'chartData' => $chartData,
+            ];
+    
+            if (Auth::user()->isSuperAdmin()) {
+                return view('superadmin.data-suhu.index', $viewData);
+            }
+    
+            return view('admin.data-suhu.index', $viewData);
         }
-
-        $dataSuhu = $query->paginate(10)->onEachSide(0)->appends($request->query());
-        $devices = Device::all();
-
-        $viewData = [
-            'dataSuhu' => $dataSuhu,
-            'devices' => $devices,
-            'selectedDeviceId' => $selectedDeviceId,
-        ];
-
-        if (Auth::user()->isSuperAdmin()) {
-            return view('superadmin.data-suhu.index', $viewData);
-        }
-
-        return view('admin.data-suhu.index', $viewData);
-    }
-
     /**
      * Show the form for creating a new resource.
      */

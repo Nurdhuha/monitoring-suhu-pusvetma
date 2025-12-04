@@ -9,6 +9,11 @@
 
     <title>{{ config('app.name', 'Laravel') }}</title>
 
+    <!-- Favicon -->
+    <link rel="icon" href="{{ asset('asset/logo-suhu.png') }}" type="image/png">
+    <link rel="apple-touch-icon" href="{{ asset('asset/logo-suhu.png') }}">
+    <link rel="manifest" href="{{ asset('favicons/manifest.json') }}">
+
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=Nunito" rel="stylesheet">
@@ -19,6 +24,8 @@
 
     <!-- Select2 CDN for multi-select dropdown styling -->
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+
+    @stack('styles')
 </head>
 <body>
     <div id="app">
