@@ -1,0 +1,534 @@
+{
+    "months": [
+        {
+            "row": 4,
+            "month": "Januari",
+            "month_num": 1
+        },
+        {
+            "row": 46,
+            "month": "Februari",
+            "month_num": 2
+        },
+        {
+            "row": 85,
+            "month": "Maret",
+            "month_num": 3
+        },
+        {
+            "row": 127,
+            "month": "April",
+            "month_num": 4
+        },
+        {
+            "row": 168,
+            "month": "Mei",
+            "month_num": 5
+        },
+        {
+            "row": 210,
+            "month": "Juni",
+            "month_num": 6
+        },
+        {
+            "row": 251,
+            "month": "Juli",
+            "month_num": 7
+        },
+        {
+            "row": 293,
+            "month": "Agustus",
+            "month_num": 8
+        },
+        {
+            "row": 335,
+            "month": "September",
+            "month_num": 9
+        },
+        {
+            "row": 376,
+            "month": "Oktober",
+            "month_num": 10
+        },
+        {
+            "row": 418,
+            "month": "November",
+            "month_num": 11
+        },
+        {
+            "row": 459,
+            "month": "Desember",
+            "month_num": 12
+        }
+    ],
+    "analysis": [
+        {
+            "month": "Juni",
+            "start_row": 210,
+            "next_month_row": 251,
+            "sample_data": [
+                {
+                    "row": 215,
+                    "TGL": 1,
+                    "CR_Depan_Pagi": 4.9000000000000004,
+                    "CR_Depan_Sore": 4.0999999999999996,
+                    "CR_Tengah_Pagi": 3.8999999999999999,
+                    "CR_Tengah_Sore": 4.5999999999999996,
+                    "CR_Belakang_Pagi": 4.0999999999999996,
+                    "CR_Belakang_Sore": 4.2999999999999998
+                },
+                {
+                    "row": 216,
+                    "TGL": 2,
+                    "CR_Depan_Pagi": 4.7999999999999998,
+                    "CR_Depan_Sore": 4.4000000000000004,
+                    "CR_Tengah_Pagi": 4.0999999999999996,
+                    "CR_Tengah_Sore": 5.9000000000000004,
+                    "CR_Belakang_Pagi": 3.7999999999999998,
+                    "CR_Belakang_Sore": 5.2999999999999998
+                },
+                {
+                    "row": 217,
+                    "TGL": 3,
+                    "CR_Depan_Pagi": 4.7999999999999998,
+                    "CR_Depan_Sore": 5.0999999999999996,
+                    "CR_Tengah_Pagi": 5.5,
+                    "CR_Tengah_Sore": 6,
+                    "CR_Belakang_Pagi": 3,
+                    "CR_Belakang_Sore": 5.4000000000000004
+                },
+                {
+                    "row": 218,
+                    "TGL": 4,
+                    "CR_Depan_Pagi": 4.7000000000000002,
+                    "CR_Depan_Sore": 5.4000000000000004,
+                    "CR_Tengah_Pagi": 5.4000000000000004,
+                    "CR_Tengah_Sore": 6.5,
+                    "CR_Belakang_Pagi": 4.5,
+                    "CR_Belakang_Sore": 5.7000000000000002
+                },
+                {
+                    "row": 219,
+                    "TGL": 5,
+                    "CR_Depan_Pagi": 4.7999999999999998,
+                    "CR_Depan_Sore": 5.5,
+                    "CR_Tengah_Pagi": 4.7000000000000002,
+                    "CR_Tengah_Sore": 4,
+                    "CR_Belakang_Pagi": 5.4000000000000004,
+                    "CR_Belakang_Sore": 5.7999999999999998
+                },
+                {
+                    "row": 220,
+                    "TGL": 6,
+                    "CR_Depan_Pagi": 4.9000000000000004,
+                    "CR_Depan_Sore": 6,
+                    "CR_Tengah_Pagi": 3.5,
+                    "CR_Tengah_Sore": 3.8999999999999999,
+                    "CR_Belakang_Pagi": 5.5999999999999996,
+                    "CR_Belakang_Sore": 4.7999999999999998
+                },
+                {
+                    "row": 221,
+                    "TGL": 7,
+                    "CR_Depan_Pagi": 4.5999999999999996,
+                    "CR_Depan_Sore": 3.8999999999999999,
+                    "CR_Tengah_Pagi": 3.3999999999999999,
+                    "CR_Tengah_Sore": 5.0999999999999996,
+                    "CR_Belakang_Pagi": 5.7000000000000002,
+                    "CR_Belakang_Sore": 4.9000000000000004
+                },
+                {
+                    "row": 222,
+                    "TGL": 8,
+                    "CR_Depan_Pagi": 4.5,
+                    "CR_Depan_Sore": 6.0999999999999996,
+                    "CR_Tengah_Pagi": 5.2000000000000002,
+                    "CR_Tengah_Sore": 4.2000000000000002,
+                    "CR_Belakang_Pagi": 5.9000000000000004,
+                    "CR_Belakang_Sore": 4.0999999999999996
+                },
+                {
+                    "row": 223,
+                    "TGL": 9,
+                    "CR_Depan_Pagi": 4.5999999999999996,
+                    "CR_Depan_Sore": 4.9000000000000004,
+                    "CR_Tengah_Pagi": 4.0999999999999996,
+                    "CR_Tengah_Sore": 4.7000000000000002,
+                    "CR_Belakang_Pagi": 3.8999999999999999,
+                    "CR_Belakang_Sore": 3
+                },
+                {
+                    "row": 224,
+                    "TGL": 10,
+                    "CR_Depan_Pagi": 4.7999999999999998,
+                    "CR_Depan_Sore": 5.7000000000000002,
+                    "CR_Tengah_Pagi": 4.4000000000000004,
+                    "CR_Tengah_Sore": 6.2000000000000002,
+                    "CR_Belakang_Pagi": 3.8999999999999999,
+                    "CR_Belakang_Sore": 6
+                },
+                {
+                    "row": 225,
+                    "TGL": 11,
+                    "CR_Depan_Pagi": 4.2999999999999998,
+                    "CR_Depan_Sore": 4.7000000000000002,
+                    "CR_Tengah_Pagi": 5.5,
+                    "CR_Tengah_Sore": 4.5,
+                    "CR_Belakang_Pagi": 4.0999999999999996,
+                    "CR_Belakang_Sore": 6.5
+                }
+            ]
+        },
+        {
+            "month": "Juli",
+            "start_row": 251,
+            "next_month_row": 293,
+            "sample_data": [
+                {
+                    "row": 256,
+                    "TGL": 1,
+                    "CR_Depan_Pagi": 4,
+                    "CR_Depan_Sore": 4.7000000000000002,
+                    "CR_Tengah_Pagi": "4,8",
+                    "CR_Tengah_Sore": "5,3",
+                    "CR_Belakang_Pagi": 5.2000000000000002,
+                    "CR_Belakang_Sore": 5.5999999999999996
+                },
+                {
+                    "row": 257,
+                    "TGL": 2,
+                    "CR_Depan_Pagi": 5.0999999999999996,
+                    "CR_Depan_Sore": 5.7999999999999998,
+                    "CR_Tengah_Pagi": "4,7",
+                    "CR_Tengah_Sore": "5,6",
+                    "CR_Belakang_Pagi": "6,8",
+                    "CR_Belakang_Sore": 5.4000000000000004
+                },
+                {
+                    "row": 258,
+                    "TGL": 3,
+                    "CR_Depan_Pagi": 4.2000000000000002,
+                    "CR_Depan_Sore": 4,
+                    "CR_Tengah_Pagi": "4,2",
+                    "CR_Tengah_Sore": "4,7",
+                    "CR_Belakang_Pagi": "6,1",
+                    "CR_Belakang_Sore": 6.4000000000000004
+                },
+                {
+                    "row": 259,
+                    "TGL": 4,
+                    "CR_Depan_Pagi": 4.7000000000000002,
+                    "CR_Depan_Sore": 5,
+                    "CR_Tengah_Pagi": "4,5",
+                    "CR_Tengah_Sore": "4,8",
+                    "CR_Belakang_Pagi": 6,
+                    "CR_Belakang_Sore": 6.5
+                },
+                {
+                    "row": 260,
+                    "TGL": 5,
+                    "CR_Depan_Pagi": 5.2999999999999998,
+                    "CR_Depan_Sore": 4.0999999999999996,
+                    "CR_Tengah_Pagi": "4,7",
+                    "CR_Tengah_Sore": "4,6",
+                    "CR_Belakang_Pagi": 5.5,
+                    "CR_Belakang_Sore": 6.2000000000000002
+                },
+                {
+                    "row": 261,
+                    "TGL": 6,
+                    "CR_Depan_Pagi": 4.5999999999999996,
+                    "CR_Depan_Sore": 5.0999999999999996,
+                    "CR_Tengah_Pagi": "4,2",
+                    "CR_Tengah_Sore": "4,5",
+                    "CR_Belakang_Pagi": 5,
+                    "CR_Belakang_Sore": 6.2999999999999998
+                },
+                {
+                    "row": 262,
+                    "TGL": 7,
+                    "CR_Depan_Pagi": 5.2000000000000002,
+                    "CR_Depan_Sore": 5.5,
+                    "CR_Tengah_Pagi": "4,8",
+                    "CR_Tengah_Sore": "4,3",
+                    "CR_Belakang_Pagi": 5.0999999999999996,
+                    "CR_Belakang_Sore": 6.5
+                },
+                {
+                    "row": 263,
+                    "TGL": 8,
+                    "CR_Depan_Pagi": 3.8999999999999999,
+                    "CR_Depan_Sore": 5,
+                    "CR_Tengah_Pagi": "6,1",
+                    "CR_Tengah_Sore": "5,0",
+                    "CR_Belakang_Pagi": 5,
+                    "CR_Belakang_Sore": 6.4000000000000004
+                },
+                {
+                    "row": 264,
+                    "TGL": 9,
+                    "CR_Depan_Pagi": 5,
+                    "CR_Depan_Sore": 5.9000000000000004,
+                    "CR_Tengah_Pagi": "6,3",
+                    "CR_Tengah_Sore": "4,3",
+                    "CR_Belakang_Pagi": 4.0999999999999996,
+                    "CR_Belakang_Sore": 6.2000000000000002
+                },
+                {
+                    "row": 265,
+                    "TGL": 10,
+                    "CR_Depan_Pagi": 4.9000000000000004,
+                    "CR_Depan_Sore": 6,
+                    "CR_Tengah_Pagi": "4,4",
+                    "CR_Tengah_Sore": "4,3",
+                    "CR_Belakang_Pagi": 4,
+                    "CR_Belakang_Sore": 6
+                },
+                {
+                    "row": 266,
+                    "TGL": 11,
+                    "CR_Depan_Pagi": 4.0999999999999996,
+                    "CR_Depan_Sore": 4.2000000000000002,
+                    "CR_Tengah_Pagi": "4,4",
+                    "CR_Tengah_Sore": "4,6",
+                    "CR_Belakang_Pagi": 6,
+                    "CR_Belakang_Sore": 6.2999999999999998
+                }
+            ]
+        },
+        {
+            "month": "Agustus",
+            "start_row": 293,
+            "next_month_row": 335,
+            "sample_data": [
+                {
+                    "row": 298,
+                    "TGL": 1,
+                    "CR_Depan_Pagi": 4,
+                    "CR_Depan_Sore": 5.5,
+                    "CR_Tengah_Pagi": "4,5",
+                    "CR_Tengah_Sore": "4,3",
+                    "CR_Belakang_Pagi": 6.0999999999999996,
+                    "CR_Belakang_Sore": 5.2000000000000002
+                },
+                {
+                    "row": 299,
+                    "TGL": 2,
+                    "CR_Depan_Pagi": 5.5999999999999996,
+                    "CR_Depan_Sore": 5.7000000000000002,
+                    "CR_Tengah_Pagi": "4,7",
+                    "CR_Tengah_Sore": "4,2",
+                    "CR_Belakang_Pagi": 6.9000000000000004,
+                    "CR_Belakang_Sore": 5.5
+                },
+                {
+                    "row": 300,
+                    "TGL": 3,
+                    "CR_Depan_Pagi": 4.2999999999999998,
+                    "CR_Depan_Sore": 5,
+                    "CR_Tengah_Pagi": "6,7",
+                    "CR_Tengah_Sore": "6,3",
+                    "CR_Belakang_Pagi": 6.5,
+                    "CR_Belakang_Sore": 5.0999999999999996
+                },
+                {
+                    "row": 301,
+                    "TGL": 4,
+                    "CR_Depan_Pagi": 6,
+                    "CR_Depan_Sore": 5.2000000000000002,
+                    "CR_Tengah_Pagi": "5,3",
+                    "CR_Tengah_Sore": "4,4",
+                    "CR_Belakang_Pagi": 5.2000000000000002,
+                    "CR_Belakang_Sore": 6.7999999999999998
+                },
+                {
+                    "row": 302,
+                    "TGL": 5,
+                    "CR_Depan_Pagi": 5.0999999999999996,
+                    "CR_Depan_Sore": 4,
+                    "CR_Tengah_Pagi": "4,6",
+                    "CR_Tengah_Sore": "4,3",
+                    "CR_Belakang_Pagi": 6.2999999999999998,
+                    "CR_Belakang_Sore": 5.2000000000000002
+                },
+                {
+                    "row": 303,
+                    "TGL": 6,
+                    "CR_Depan_Pagi": 3.8999999999999999,
+                    "CR_Depan_Sore": 4.9000000000000004,
+                    "CR_Tengah_Pagi": "4,5",
+                    "CR_Tengah_Sore": "4,4",
+                    "CR_Belakang_Pagi": 5.2999999999999998,
+                    "CR_Belakang_Sore": 6.0999999999999996
+                },
+                {
+                    "row": 304,
+                    "TGL": 7,
+                    "CR_Depan_Pagi": 4.2000000000000002,
+                    "CR_Depan_Sore": 4.7999999999999998,
+                    "CR_Tengah_Pagi": "4,7",
+                    "CR_Tengah_Sore": "6,0",
+                    "CR_Belakang_Pagi": 6.7999999999999998,
+                    "CR_Belakang_Sore": 6.2000000000000002
+                },
+                {
+                    "row": 305,
+                    "TGL": 8,
+                    "CR_Depan_Pagi": 4.4000000000000004,
+                    "CR_Depan_Sore": 4.4000000000000004,
+                    "CR_Tengah_Pagi": "5,2",
+                    "CR_Tengah_Sore": "4,4",
+                    "CR_Belakang_Pagi": 5.4000000000000004,
+                    "CR_Belakang_Sore": 5.2999999999999998
+                },
+                {
+                    "row": 306,
+                    "TGL": 9,
+                    "CR_Depan_Pagi": 5.0999999999999996,
+                    "CR_Depan_Sore": 5.9000000000000004,
+                    "CR_Tengah_Pagi": "5,1",
+                    "CR_Tengah_Sore": "5,2",
+                    "CR_Belakang_Pagi": 6.9000000000000004,
+                    "CR_Belakang_Sore": 6.2000000000000002
+                },
+                {
+                    "row": 307,
+                    "TGL": 10,
+                    "CR_Depan_Pagi": 5,
+                    "CR_Depan_Sore": 6,
+                    "CR_Tengah_Pagi": "4,3",
+                    "CR_Tengah_Sore": "6,2",
+                    "CR_Belakang_Pagi": 5.2999999999999998,
+                    "CR_Belakang_Sore": 6.9000000000000004
+                },
+                {
+                    "row": 308,
+                    "TGL": 11,
+                    "CR_Depan_Pagi": 5.5,
+                    "CR_Depan_Sore": 4.9000000000000004,
+                    "CR_Tengah_Pagi": "4,8",
+                    "CR_Tengah_Sore": "6,4",
+                    "CR_Belakang_Pagi": 5.0999999999999996,
+                    "CR_Belakang_Sore": 5.2999999999999998
+                }
+            ]
+        },
+        {
+            "month": "September",
+            "start_row": 335,
+            "next_month_row": 376,
+            "sample_data": [
+                {
+                    "row": 340,
+                    "TGL": 1,
+                    "CR_Depan_Pagi": 4,
+                    "CR_Depan_Sore": 5.0999999999999996,
+                    "CR_Tengah_Pagi": 4.5999999999999996,
+                    "CR_Tengah_Sore": 6,
+                    "CR_Belakang_Pagi": 4.0999999999999996,
+                    "CR_Belakang_Sore": 5
+                },
+                {
+                    "row": 341,
+                    "TGL": 2,
+                    "CR_Depan_Pagi": 5.7000000000000002,
+                    "CR_Depan_Sore": 5,
+                    "CR_Tengah_Pagi": 5.9000000000000004,
+                    "CR_Tengah_Sore": 6.0999999999999996,
+                    "CR_Belakang_Pagi": 4,
+                    "CR_Belakang_Sore": 5.9000000000000004
+                },
+                {
+                    "row": 342,
+                    "TGL": 3,
+                    "CR_Depan_Pagi": 6,
+                    "CR_Depan_Sore": 5.5,
+                    "CR_Tengah_Pagi": 5.0999999999999996,
+                    "CR_Tengah_Sore": 4.9000000000000004,
+                    "CR_Belakang_Pagi": 5,
+                    "CR_Belakang_Sore": 6.2000000000000002
+                },
+                {
+                    "row": 343,
+                    "TGL": 4,
+                    "CR_Depan_Pagi": 3.8999999999999999,
+                    "CR_Depan_Sore": 5.7999999999999998,
+                    "CR_Tengah_Pagi": 5.5,
+                    "CR_Tengah_Sore": 4.2999999999999998,
+                    "CR_Belakang_Pagi": 5.4000000000000004,
+                    "CR_Belakang_Sore": 6
+                },
+                {
+                    "row": 344,
+                    "TGL": 5,
+                    "CR_Depan_Pagi": 4.2000000000000002,
+                    "CR_Depan_Sore": 4.9000000000000004,
+                    "CR_Tengah_Pagi": 5.7000000000000002,
+                    "CR_Tengah_Sore": 5.5,
+                    "CR_Belakang_Pagi": 5.9000000000000004,
+                    "CR_Belakang_Sore": 6.5999999999999996
+                },
+                {
+                    "row": 345,
+                    "TGL": 6,
+                    "CR_Depan_Pagi": 4.4000000000000004,
+                    "CR_Depan_Sore": 4.0999999999999996,
+                    "CR_Tengah_Pagi": 4.5,
+                    "CR_Tengah_Sore": 5.2000000000000002,
+                    "CR_Belakang_Pagi": 4.7000000000000002,
+                    "CR_Belakang_Sore": 4.0999999999999996
+                },
+                {
+                    "row": 346,
+                    "TGL": 7,
+                    "CR_Depan_Pagi": 5.5,
+                    "CR_Depan_Sore": 4.4000000000000004,
+                    "CR_Tengah_Pagi": 6,
+                    "CR_Tengah_Sore": 5.9000000000000004,
+                    "CR_Belakang_Pagi": 4.4000000000000004,
+                    "CR_Belakang_Sore": 5.2000000000000002
+                },
+                {
+                    "row": 347,
+                    "TGL": 8,
+                    "CR_Depan_Pagi": 5,
+                    "CR_Depan_Sore": 7,
+                    "CR_Tengah_Pagi": 6.0999999999999996,
+                    "CR_Tengah_Sore": 4.9000000000000004,
+                    "CR_Belakang_Pagi": 5.4000000000000004,
+                    "CR_Belakang_Sore": 5.2999999999999998
+                },
+                {
+                    "row": 348,
+                    "TGL": 9,
+                    "CR_Depan_Pagi": 4,
+                    "CR_Depan_Sore": 6.5,
+                    "CR_Tengah_Pagi": 3.8999999999999999,
+                    "CR_Tengah_Sore": 5.7999999999999998,
+                    "CR_Belakang_Pagi": 5.5,
+                    "CR_Belakang_Sore": 5.7999999999999998
+                },
+                {
+                    "row": 349,
+                    "TGL": 10,
+                    "CR_Depan_Pagi": 4.0999999999999996,
+                    "CR_Depan_Sore": 4,
+                    "CR_Tengah_Pagi": 5.0999999999999996,
+                    "CR_Tengah_Sore": 4.7000000000000002,
+                    "CR_Belakang_Pagi": 6,
+                    "CR_Belakang_Sore": 4.4000000000000004
+                },
+                {
+                    "row": 350,
+                    "TGL": 11,
+                    "CR_Depan_Pagi": 5.0999999999999996,
+                    "CR_Depan_Sore": 5.0999999999999996,
+                    "CR_Tengah_Pagi": 4.4000000000000004,
+                    "CR_Tengah_Sore": 5.5999999999999996,
+                    "CR_Belakang_Pagi": 3.8999999999999999,
+                    "CR_Belakang_Sore": 4.7999999999999998
+                }
+            ]
+        }
+    ]
+}

@@ -1,0 +1,52 @@
+﻿php : PHP Warning:  PHP 
+Startup: Unable to load 
+dynamic library 
+'php_mysql.dll' (tried: C:\x
+ampp\php\ext\php_mysql.dll 
+(The specified module could 
+not be found), C:\xampp\php\
+ext\php_php_mysql.dll.dll 
+(The specified module could 
+not be found)) in Unknown 
+on line 0
+At line:1 char:1
++ php analyze-excel.php 
+2>&1 | Out-File -FilePath 
+excel-output.txt -Enc ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          
+    : NotSpecified: (PHP W  
+  arning:  P...known on l   
+ ine 0:String) [], Remot    
+eException
+    + FullyQualifiedErrorId 
+    : NativeCommandError
+ 
+
+Warning: PHP Startup: Unable to load dynamic library 'php_mysql.dll' (tried: C:\xampp\php\ext\php_mysql.dll (The specified module could not be found), C:\xampp\php\ext\php_php_mysql.dll.dll (The specified module could not be found)) in Unknown on line 0
+Loading file...
+Sheets found:
+  0: CR 2025
+  1: F Jan 25
+  2: F Feb 25
+  3: F Mar 25
+  4: F Apr 25
+  5: F Mei 25
+  6: F Jun 25
+  7: F Jul 25
+  8: F Agu 25
+  9: F Sep 25
+  10: F Okt 25
+  11: F Nov 25
+  12: F Des 25
+
+First sheet: CR 2025
+Rows: 1000
+Cols: Z
+
+First 5 rows:
+Row 1: {"F":"FORM PENGAMATAN SUHU THERMOHYGROMETER"}
+Row 2: {"F":"SUB KELOMPOK SUBSTANSI DISTRIBUSI DAN PENJUALAN PRODUK"}
+Row 3: []
+Row 4: {"A":"BULAN :","C":"Januari","E":2025}
+Row 5: []
