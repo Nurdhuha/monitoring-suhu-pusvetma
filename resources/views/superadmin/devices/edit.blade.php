@@ -1,15 +1,15 @@
 @extends('adminlte::page')
 
-@section('title', 'Edit Device')
+@section('title', 'Edit Perangkat')
 
 @section('content_header')
-    <h1>Edit Device</h1>
+    <h1>Edit Perangkat</h1>
 @stop
 
 @section('content')
     <div class="card">
         <div class="card-header">
-            <h3 class="card-title">Device Details</h3>
+            <h3 class="card-title">Detail Perangkat</h3>
         </div>
         <form action="{{ route('superadmin.devices.update', $device->id) }}" method="POST">
             @csrf
